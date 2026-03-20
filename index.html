@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BIGO 67 PREMIUM</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Orbitron:wght@400;900&display=swap');
+
+        body {
+            margin: 0; padding: 0;
+            background: #0d0d0d; color: white;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center; overflow-x: hidden;
+            height: 100vh;
+        }
+
+        /* PAGE DE BIENVENUE (OVERLAY) */
+        #welcome-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('image.png');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 100; transition: 0.5s;
+        }
+
+        .vice-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 4rem; color: #fff;
+            text-shadow: 0 0 10px #ff00ff, 0 0 20px #00f2ff;
+            transform: rotate(-5deg); margin-bottom: 50px;
+        }
+
+        .enter-btn {
+            background: none; border: 4px solid #00f2ff; color: #00f2ff;
+            padding: 20px 40px; font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer;
+            box-shadow: 0 0 15px #00f2ff; text-transform: uppercase;
+        }
+
+        .enter-btn:active { background: #00f2ff; color: black; }
+
+        /* CONTENU DU STOCK (CACHE AU DEBUT) */
+        #main-content { display: none; padding-bottom: 80px; }
+
+        .tabs {
+            display: flex; justify-content: space-around;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid #ff00ff; padding: 15px 0;
+        }
+        .tab { color: #00f2ff; text-decoration: none; font-weight: bold; }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid #ff00ff;
+            border-radius: 10px; margin: 20px; padding: 15px;
+            display: flex; align-items: center; text-align: left;
+            box-shadow: 4px 4px 0px #00f2ff;
+        }
+        .item-img { width: 70px; height: 70px; border-radius: 5px; margin-right: 15px; border: 1px solid #fff; }
+        .price { color: #39FF14; font-size: 1.3rem; font-weight: bold; }
+
+        /* CONTROLE AUDIO */
+        #audio-controls {
+            position: fixed; bottom: 20px; right: 20px;
+            background: rgba(0,0,0,0.8); border: 2px solid #ff00ff;
+            border-radius: 50px; padding: 10px; display: none; align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <div class="vice-title">BIENVENUE CHEZ<br>BIGO 67</div>
+        <button class="enter-btn" onclick="startApp()">Voir le Stock</button>
+    </div>
+
+    <div id="main-content">
+        <nav class="tabs">
+            <a href="#" class="tab">IPHONE</a>
+            <a href="#" class="tab">SAMSUNG</a>
+            <a href="#" class="tab" style="opacity: 0.5;">🕵️</a>
+        </nav>
+
+        <div id="stock-list">
+            <h2 style="color: #ff00ff; margin-top: 30px; font-family: 'Permanent Marker';">STOCK PREMIUM</h2>
+            
+            <div class="item-card">
+                <img src="image.png" class="item-img">
+                <div>
+                    <div style="font-weight: bold;">IPHONE 13 PRO</div>
+                    <div style="font-size: 0.8rem; color: #aaa;">Noir - Écran changé</div>
+                    <div class="price">450€</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="myAudio" loop>
+        <source src="iam.mp3.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="audio-controls">
+        <span id="vol-icon" onclick="toggleMute()">🔊</span>
+        <input type="range" min="0" max="1" step="0.1" value="0.5" oninput="setVolume(this.value)" style="width: 50px; margin-left: 10px;">
+    </div>
+
+    <script>
+        const audio = document.getElementById('myAudio');
+
+        function startApp() {
+            // 1. Cache l'écran de bienvenue
+            document.getElementById('welcome-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('audio-controls').style.display = 'flex';
+            }, 500);
+
+            // 2. Lance la musique
+            audio.play();
+        }
+
+        function toggleMute() {
+            audio.muted = !audio.muted;
+            document.getElementById('vol-icon').innerText = audio.muted ? "🔇" : "🔊";
+        }
+
+        function setVolume(val) {
+            audio.volume = val;
+        }
+    </script>
+</body>
+</html>
