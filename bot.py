@@ -1,27 +1,26 @@
 import os
-from flask import Flask
-from threading import Thread
+import asyncio
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram.ext import ApplicationBuilder, CommandHandler
 
-# --- CONFIGURATION SÉCURISÉE ---
-# On demande à Render de nous donner le secret
 TOKEN = os.environ.get("BOT_TOKEN")
 URL_SITE = "https://ewew6700-pixel.github.io/Shop/"
 
-app = Flask(__name__)
-@app.route('/')
-def home(): return "OK"
-
-def run():
-    app.run(host='0.0.0.0', port=10000)
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update: Update, context):
     kb = [[InlineKeyboardButton("🛍️ OUVRIR LE SHOP", web_app=WebAppInfo(url=URL_SITE))]]
     await update.message.reply_text("🔥 BIENVENUE !", reply_markup=InlineKeyboardMarkup(kb))
 
+def main():
+    if not TOKEN:
+        print("Erreur: Pas de Token !")
+        return
+    
+    # On construit l'application simplement
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    
+    print("✅ BOT PRET !")
+    app.run_polling(drop_pending_updates=True)
+
 if __name__ == '__main__':
-    Thread(target=run).start()
-    if TOKEN:
-        print("Démarrage...")
-        ApplicationBuilder().token(TOKEN).build().add_handler(CommandHandler("start", start)).run_polling()
+    main()
