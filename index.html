@@ -3,163 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BIGO 67 PREMIUM</title>
+    <title>BIGO 67 - PREMIUM DEALER</title>
     <style>
-        @font-face { font-family: 'GTA'; src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); }
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+        /* Importation de la vraie police GTA */
+        @font-face {
+            font-family: 'Pricedown';
+            src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff');
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;800&display=swap');
+
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f2ff;
+        }
 
         body {
             margin: 0; padding: 0; background: #000; color: white;
-            font-family: 'Orbitron', sans-serif; text-align: center;
+            font-family: 'Montserrat', sans-serif; text-align: center;
             height: 100vh; overflow: hidden;
+            border: 4px solid var(--neon-blue); box-sizing: border-box;
         }
 
-        /* ACCUEIL PREMIUM */
+        /* --- ÉCRAN D'ACCUEIL --- */
         #welcome-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 0, 255, 0.3), rgba(0, 0, 0, 0.9)), url('se2022black.jpg');
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.9)), 
+                        url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=2000'); /* Vue Miami sans voiture */
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 100; transition: 1s;
+            z-index: 100; transition: 1.5s ease-in-out;
         }
 
-        .gta-title {
-            font-family: 'GTA', sans-serif; font-size: 4.5rem;
-            color: #fff; text-shadow: 0 0 15px #ff00ff, 0 0 30px #00f2ff;
-            margin-bottom: 40px; transform: rotate(-3deg);
+        .gta-logo {
+            font-family: 'Pricedown', sans-serif;
+            font-size: 5.5rem; color: #fff;
+            text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-blue);
+            margin: 0; transform: rotate(-5deg);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-blue), 0 0 10px #fff; }
+            to { text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-blue), 0 0 30px var(--neon-pink); }
+        }
+
+        .subtitle {
+            font-family: 'Pricedown', sans-serif;
+            font-size: 1.2rem; color: var(--neon-blue);
+            margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
+            background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 5px;
         }
 
         .enter-btn {
-            background: none; border: 4px solid #ff00ff; color: #fff;
-            padding: 20px 60px; font-family: 'GTA', sans-serif; font-size: 2rem;
-            cursor: pointer; box-shadow: 0 0 20px #ff00ff; transition: 0.3s;
+            margin-top: 50px; background: none; border: 3px solid #fff;
+            color: #fff; padding: 15px 40px; font-family: 'Pricedown', sans-serif;
+            font-size: 2rem; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 0 15px var(--neon-pink);
         }
 
-        /* PAGE STOCK */
-        #main-content { display: none; height: 100%; overflow-y: auto; background: #0a0a0a; }
+        .enter-btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px var(--neon-blue); }
+
+        /* --- INTERFACE PRINCIPALE --- */
+        #main-content { display: none; height: 100%; overflow-y: auto; background: #050505; }
 
         .tabs {
             display: flex; justify-content: space-around; position: sticky; top: 0;
-            background: rgba(0,0,0,0.95); border-bottom: 2px solid #00f2ff;
-            padding: 15px 0; z-index: 50;
+            background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon-pink);
+            padding: 20px 0; z-index: 50;
         }
-        .tab { color: #00f2ff; text-decoration: none; font-weight: bold; font-size: 0.8rem; }
 
-        .container { padding: 15px; }
+        .tab { 
+            font-family: 'Pricedown', sans-serif; font-size: 1.5rem;
+            color: #fff; text-decoration: none; opacity: 0.5; transition: 0.3s;
+        }
 
+        .tab.active { opacity: 1; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
+
+        .container { padding: 20px; display: none; }
+        .container.active { display: block; animation: fadeIn 0.5s; }
+
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+        /* CARTES PRODUITS PREMIUM */
         .item-card {
-            background: rgba(20, 20, 20, 0.8); border: 1px solid #333;
-            border-left: 5px solid #ff00ff; border-radius: 8px;
-            margin-bottom: 20px; padding: 12px; display: flex; align-items: center;
-            text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            background: linear-gradient(145deg, #111, #000);
+            border: 1px solid #333; border-radius: 12px;
+            margin-bottom: 20px; padding: 15px; display: flex; align-items: center;
+            text-align: left; position: relative; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+        }
+
+        .item-card::after {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px;
+            background: var(--neon-pink);
         }
 
         .item-img {
-            width: 90px; height: 90px; border-radius: 5px;
-            margin-right: 15px; object-fit: cover; border: 1px solid #444;
+            width: 85px; height: 85px; border-radius: 8px;
+            margin-right: 20px; object-fit: cover; border: 2px solid #222;
         }
 
-        .item-name { font-weight: 900; font-size: 1rem; color: #00f2ff; text-transform: uppercase; }
-        .price { color: #39FF14; font-size: 1.4rem; font-weight: bold; margin-top: 5px; }
+        .item-name { font-weight: 800; font-size: 1rem; color: #fff; text-transform: uppercase; }
+        .price { color: #39FF14; font-family: 'Pricedown', sans-serif; font-size: 1.8rem; margin-top: 5px; }
 
-        /* AUDIO CONTROLS */
+        /* AUDIO */
         #audio-controls {
-            position: fixed; bottom: 20px; right: 20px;
-            background: rgba(0,0,0,0.8); border: 1px solid #00f2ff;
+            position: fixed; bottom: 25px; right: 25px;
+            background: rgba(0,0,0,0.9); border: 2px solid var(--neon-pink);
             border-radius: 50px; padding: 10px; display: none; align-items: center;
+            box-shadow: 0 0 15px var(--neon-pink);
         }
     </style>
 </head>
 <body>
 
     <div id="welcome-screen">
-        <div class="gta-title">BIGO 67</div>
-        <button class="enter-btn" onclick="startApp()">VOIR LE STOCK</button>
+        <h1 class="gta-logo">Bigo 67</h1>
+        <p class="subtitle">iPhone reconditionnés & Accessoires Tech</p>
+        <button class="enter-btn" onclick="startApp()">START GAME</button>
     </div>
 
     <div id="main-content">
         <nav class="tabs">
-            <a href="#" class="tab">IPHONE</a>
-            <a href="#" class="tab">SAMSUNG</a>
-            <a href="#" class="tab" style="opacity: 0.3;">🕵️</a>
+            <a href="javascript:void(0)" class="tab active" onclick="showTab('iphone', this)">iPHONES</a>
+            <a href="javascript:void(0)" class="tab" onclick="showTab('secret', this)">INSPECTEUR</a>
         </nav>
 
-        <div class="container">
-            <h2 style="font-family: 'GTA'; color: #ff00ff; font-size: 2.5rem;">ARRIVAGES</h2>
+        <div id="iphone" class="container active">
+            <div class="item-card"><img src="12miniblue.png" class="item-img"><div><div class="item-name">iPhone 12 Mini Bleu</div><div class="price">$280</div></div></div>
+            <div class="item-card"><img src="12minipurple.png" class="item-img"><div><div class="item-name">iPhone 12 Mini Mauve</div><div class="price">$310</div></div></div>
+            <div class="item-card"><img src="se2022black.jpg" class="item-img"><div><div class="item-name">iPhone SE 2022 Noir</div><div class="price">$220</div></div></div>
+            <div class="item-card"><img src="se2020black.png" class="item-img"><div><div class="item-name">iPhone SE 2020 Noir</div><div class="price">$160</div></div></div>
+            <div class="item-card"><img src="se2020red.png" class="item-img"><div><div class="item-name">iPhone SE 2020 Rouge</div><div class="price">$160</div></div></div>
+            <div class="item-card"><img src="se2020white.png" class="item-img"><div><div class="item-name">iPhone SE 2020 Blanc</div><div class="price">$160</div></div></div>
+            <div class="item-card"><img src="8white.png" class="item-img"><div><div class="item-name">iPhone 8 Blanc</div><div class="price">$120</div></div></div>
+            <div class="item-card"><img src="7black.png" class="item-img"><div><div class="item-name">iPhone 7 Noir</div><div class="price">$95</div></div></div>
+        </div>
 
-            <div class="item-card">
-                <img src="12miniblue.png" class="item-img">
-                <div>
-                    <div class="item-name">iPhone 12 Mini Bleu</div>
-                    <div style="font-size: 0.7rem; color: #888;">État Nickel - 64GB</div>
-                    <div class="price">280€</div>
-                </div>
-            </div>
-
-            <div class="item-card">
-                <img src="12minipurple.png" class="item-img">
-                <div>
-                    <div class="item-name">iPhone 12 Mini Mauve</div>
-                    <div style="font-size: 0.7rem; color: #888;">Compact - 128GB</div>
-                    <div class="price">310€</div>
-                </div>
-            </div>
-
-            <div class="item-card">
-                <img src="se2020black.png" class="item-img">
-                <div>
-                    <div class="item-name">iPhone SE 2020 Noir</div>
-                    <div style="font-size: 0.7rem; color: #888;">Classique - 64GB</div>
-                    <div class="price">150€</div>
-                </div>
-            </div>
-
-            <div class="item-card">
-                <img src="8white.png" class="item-img">
-                <div>
-                    <div class="item-name">iPhone 8 Blanc</div>
-                    <div style="font-size: 0.7rem; color: #888;">Parfait état</div>
-                    <div class="price">120€</div>
-                </div>
-            </div>
-
-            <div class="item-card">
-                <img src="7black.png" class="item-img">
-                <div>
-                    <div class="item-name">iPhone 7 Noir</div>
-                    <div style="font-size: 0.7rem; color: #888;">Petit budget</div>
-                    <div class="price">90€</div>
-                </div>
-            </div>
-
+        <div id="secret" class="container">
+            <h2 class="gta-logo" style="font-size: 3rem;">DEALER TOOLS</h2>
+            <div class="item-card"><div style="font-size: 40px; margin-right: 20px;">📍</div><div><div class="item-name">Traqueur GPS Magnet</div><div class="price">$59</div></div></div>
+            <div class="item-card"><div style="font-size: 40px; margin-right: 20px;">📡</div><div><div class="item-name">Brouilleur Signal Pro</div><div class="price">$120</div></div></div>
         </div>
     </div>
 
-    <audio id="myAudio" loop>
-        <source src="SANDIEGO.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="myAudio" loop><source src="SANDIEGO.mp3" type="audio/mpeg"></audio>
 
     <div id="audio-controls">
-        <span id="vol-icon" onclick="toggleMute()" style="cursor:pointer">🔊</span>
-        <input type="range" min="0" max="1" step="0.1" value="0.5" oninput="setVolume(this.value)" style="width:50px; margin-left:10px;">
+        <span onclick="toggleMute()" id="vol-icon" style="cursor:pointer; font-size: 1.5rem;">🔊</span>
     </div>
 
     <script>
         const audio = document.getElementById('myAudio');
         function startApp() {
             audio.play();
-            document.getElementById('welcome-screen').style.opacity = '0';
+            document.getElementById('welcome-screen').style.transform = 'translateY(-100%)';
             setTimeout(() => {
                 document.getElementById('welcome-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 document.getElementById('audio-controls').style.display = 'flex';
             }, 1000);
         }
+
+        function showTab(tabId, el) {
+            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            el.classList.add('active');
+        }
+
         function toggleMute() {
             audio.muted = !audio.muted;
             document.getElementById('vol-icon').innerText = audio.muted ? "🔇" : "🔊";
         }
-        function setVolume(val) { audio.volume = val; }
     </script>
 </body>
 </html>
