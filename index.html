@@ -3,179 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BIGO 67 - PREMIUM DEALER</title>
+    <title>BIGO 67 - PREMIUM SHOP</title>
     <style>
-        /* Importation de la vraie police GTA */
-        @font-face {
-            font-family: 'Pricedown';
-            src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff');
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;800&display=swap');
+        @font-face { font-family: 'Pricedown'; src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
 
-        :root {
-            --neon-pink: #ff00ff;
-            --neon-blue: #00f2ff;
-        }
+        :root { --pink: #ff00ff; --blue: #00f2ff; --bg: #050505; }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
 
-        body {
-            margin: 0; padding: 0; background: #000; color: white;
-            font-family: 'Montserrat', sans-serif; text-align: center;
-            height: 100vh; overflow: hidden;
-            border: 4px solid var(--neon-blue); box-sizing: border-box;
+        /* --- ÉCRAN DE CHARGEMENT GTA --- */
+        #loading-screen {
+            position: fixed; inset: 0; background: #000; z-index: 500;
+            display: flex; flex-direction: column; justify-content: flex-end; align-items: center; transition: 0.8s ease-in-out;
         }
-
-        /* --- ÉCRAN D'ACCUEIL --- */
-        #welcome-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.9)), 
-                        url('https://images.unsplash.com/photo-1514565131-fce0801e5785?q=80&w=2000'); /* Vue Miami sans voiture */
-            background-size: cover; background-position: center;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 100; transition: 1.5s ease-in-out;
+        .slide-bg {
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            animation: kenburns 10s infinite alternate; opacity: 0; transition: opacity 1.5s;
         }
+        @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.2); } }
+        
+        .loading-bar-container { width: 80%; height: 8px; background: rgba(255,255,255,0.1); border: 2px solid #fff; margin-bottom: 60px; z-index: 510; }
+        .loading-bar-fill { height: 100%; width: 0%; background: var(--pink); box-shadow: 0 0 15px var(--pink); transition: width 0.4s; }
 
-        .gta-logo {
-            font-family: 'Pricedown', sans-serif;
-            font-size: 5.5rem; color: #fff;
-            text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-blue);
-            margin: 0; transform: rotate(-5deg);
-            animation: glow 2s infinite alternate;
-        }
-
-        @keyframes glow {
-            from { text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-blue), 0 0 10px #fff; }
-            to { text-shadow: 4px 4px var(--neon-pink), -2px -2px var(--neon-blue), 0 0 30px var(--neon-pink); }
-        }
-
-        .subtitle {
-            font-family: 'Pricedown', sans-serif;
-            font-size: 1.2rem; color: var(--neon-blue);
-            margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
-            background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 5px;
-        }
-
-        .enter-btn {
-            margin-top: 50px; background: none; border: 3px solid #fff;
-            color: #fff; padding: 15px 40px; font-family: 'Pricedown', sans-serif;
-            font-size: 2rem; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 0 15px var(--neon-pink);
-        }
-
-        .enter-btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px var(--neon-blue); }
+        #enter-wrapper { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(0,0,0,0.7); z-index: 520; backdrop-filter: blur(8px); }
+        .flash-text { font-family: 'Pricedown'; font-size: 4.5rem; color: #fff; text-shadow: 0 0 20px var(--blue); animation: blink 1s infinite; margin-bottom: 30px; }
+        @keyframes blink { 50% { opacity: 0.2; } }
 
         /* --- INTERFACE PRINCIPALE --- */
-        #main-content { display: none; height: 100%; overflow-y: auto; background: #050505; }
+        #app-content { display: none; height: 100vh; overflow-y: auto; }
+        header { padding: 15px; text-align: center; border-bottom: 1px solid #222; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Pricedown'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--pink); margin: 0; cursor: pointer; }
+        
+        .tabs { display: flex; justify-content: center; gap: 20px; padding: 12px; background: #111; border-bottom: 1px solid #222; }
+        .tab { font-size: 0.75rem; color: #666; text-decoration: none; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; }
+        .tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
 
-        .tabs {
-            display: flex; justify-content: space-around; position: sticky; top: 0;
-            background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--neon-pink);
-            padding: 20px 0; z-index: 50;
+        /* --- DASHBOARD ACCUEIL --- */
+        #home-page { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .category-card { 
+            height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-family: 'Pricedown'; font-size: 2.2rem; border: 1px solid #333; background-size: cover; background-position: center;
+            position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
+        .category-card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+        .category-card span { position: relative; z-index: 1; text-shadow: 2px 2px 10px #000; letter-spacing: 2px; }
 
-        .tab { 
-            font-family: 'Pricedown', sans-serif; font-size: 1.5rem;
-            color: #fff; text-decoration: none; opacity: 0.5; transition: 0.3s;
-        }
-
-        .tab.active { opacity: 1; color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); }
-
-        .container { padding: 20px; display: none; }
+        /* --- LISTE PRODUITS --- */
+        .container { display: none; padding: 20px; padding-bottom: 120px; }
         .container.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+        .product-card { background: #111; border-radius: 12px; margin-bottom: 15px; padding: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #222; }
+        .product-info { display: flex; align-items: center; }
+        .product-img { width: 70px; height: 70px; border-radius: 8px; margin-right: 15px; object-fit: cover; }
+        .product-name { font-weight: 900; font-size: 0.9rem; text-transform: uppercase; }
+        .product-price { color: #39FF14; font-weight: 900; font-size: 1.2rem; margin-top: 5px; }
+        .add-btn { background: var(--pink); border: none; color: white; padding: 10px 15px; border-radius: 8px; font-weight: 900; cursor: pointer; font-size: 1.2rem; }
 
-        /* CARTES PRODUITS PREMIUM */
-        .item-card {
-            background: linear-gradient(145deg, #111, #000);
-            border: 1px solid #333; border-radius: 12px;
-            margin-bottom: 20px; padding: 15px; display: flex; align-items: center;
-            text-align: left; position: relative; overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-        }
-
-        .item-card::after {
-            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 5px;
-            background: var(--neon-pink);
-        }
-
-        .item-img {
-            width: 85px; height: 85px; border-radius: 8px;
-            margin-right: 20px; object-fit: cover; border: 2px solid #222;
-        }
-
-        .item-name { font-weight: 800; font-size: 1rem; color: #fff; text-transform: uppercase; }
-        .price { color: #39FF14; font-family: 'Pricedown', sans-serif; font-size: 1.8rem; margin-top: 5px; }
-
-        /* AUDIO */
-        #audio-controls {
-            position: fixed; bottom: 25px; right: 25px;
-            background: rgba(0,0,0,0.9); border: 2px solid var(--neon-pink);
-            border-radius: 50px; padding: 10px; display: none; align-items: center;
-            box-shadow: 0 0 15px var(--neon-pink);
-        }
+        /* --- PANIER --- */
+        #cart-bar { position: fixed; bottom: 25px; left: 5%; width: 90%; background: var(--blue); color: black; padding: 18px; border-radius: 50px; display: none; justify-content: space-between; align-items: center; font-weight: 900; z-index: 200; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
+        #cart-modal { position: fixed; inset: 0; background: #000; z-index: 600; display: none; padding: 25px; flex-direction: column; }
+        .close-cart { text-align: right; font-size: 2.5rem; color: var(--pink); margin-bottom: 20px; }
+        .order-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .shipping-select { width: 100%; padding: 18px; background: #111; color: white; border: 2px solid var(--blue); border-radius: 12px; margin: 25px 0; font-weight: bold; }
+        .checkout-btn { width: 100%; padding: 20px; background: #39FF14; color: black; border: none; border-radius: 12px; font-weight: 900; font-size: 1.2rem; margin-top: auto; }
     </style>
 </head>
 <body>
 
-    <div id="welcome-screen">
-        <h1 class="gta-logo">Bigo 67</h1>
-        <p class="subtitle">iPhone reconditionnés & Accessoires Tech</p>
-        <button class="enter-btn" onclick="startApp()">START GAME</button>
+<div id="loading-screen">
+    <div id="slide1" class="slide-bg" style="background-image: url('https://files.catbox.moe/gcl2e0.jpg'); opacity: 1;"></div>
+    <div id="slide2" class="slide-bg" style="background-image: url('se2022black.jpg');"></div>
+    
+    <div id="enter-wrapper">
+        <h1 class="flash-text">BIGO 67</h1>
+        <button class="enter-btn" onclick="startApp()" style="font-family:'Pricedown'; font-size:2.2rem; background:none; border:3px solid #fff; color:#fff; padding:15px 40px; cursor:pointer; box-shadow:0 0 20px var(--pink); border-radius: 5px;">START GAME</button>
     </div>
 
-    <div id="main-content">
-        <nav class="tabs">
-            <a href="javascript:void(0)" class="tab active" onclick="showTab('iphone', this)">iPHONES</a>
-            <a href="javascript:void(0)" class="tab" onclick="showTab('secret', this)">INSPECTEUR</a>
-        </nav>
+    <div class="loading-bar-container" id="l-bar">
+        <div class="loading-bar-fill" id="fill"></div>
+    </div>
+</div>
 
-        <div id="iphone" class="container active">
-            <div class="item-card"><img src="12miniblue.png" class="item-img"><div><div class="item-name">iPhone 12 Mini Bleu</div><div class="price">$280</div></div></div>
-            <div class="item-card"><img src="12minipurple.png" class="item-img"><div><div class="item-name">iPhone 12 Mini Mauve</div><div class="price">$310</div></div></div>
-            <div class="item-card"><img src="se2022black.jpg" class="item-img"><div><div class="item-name">iPhone SE 2022 Noir</div><div class="price">$220</div></div></div>
-            <div class="item-card"><img src="se2020black.png" class="item-img"><div><div class="item-name">iPhone SE 2020 Noir</div><div class="price">$160</div></div></div>
-            <div class="item-card"><img src="se2020red.png" class="item-img"><div><div class="item-name">iPhone SE 2020 Rouge</div><div class="price">$160</div></div></div>
-            <div class="item-card"><img src="se2020white.png" class="item-img"><div><div class="item-name">iPhone SE 2020 Blanc</div><div class="price">$160</div></div></div>
-            <div class="item-card"><img src="8white.png" class="item-img"><div><div class="item-name">iPhone 8 Blanc</div><div class="price">$120</div></div></div>
-            <div class="item-card"><img src="7black.png" class="item-img"><div><div class="item-name">iPhone 7 Noir</div><div class="price">$95</div></div></div>
+<div id="app-content">
+    <header><h1 class="logo" onclick="showSection('home')">BIGO 67</h1></header>
+
+    <nav class="tabs">
+        <a href="javascript:void(0)" id="t-home" class="tab active" onclick="showSection('home')">Accueil</a>
+        <a href="javascript:void(0)" id="t-iphone" class="tab" onclick="showSection('iphone')">iPhones</a>
+        <a href="javascript:void(0)" id="t-secret" class="tab" onclick="showSection('secret')">Inspecteur</a>
+    </nav>
+
+    <div id="home-page">
+        <div class="category-card" style="background-image: url('se2022black.jpg');" onclick="showSection('iphone')"><span>iPHONES</span></div>
+        <div class="category-card" style="background-image: url('https://files.catbox.moe/gcl2e0.jpg');" onclick="showSection('samsung')"><span>SAMSUNG</span></div>
+        <div class="category-card" style="background-color: #111;" onclick="showSection('secret')"><span>INSPECTEUR 🕵️</span></div>
+    </div>
+
+    <div id="iphone" class="container">
+        <div class="product-card">
+            <div class="product-info">
+                <img src="12miniblue.png" class="product-img">
+                <div><div class="product-name">12 Mini Bleu</div><div class="product-price">280€</div></div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone 12 Mini Bleu', 280)">+</button>
         </div>
-
-        <div id="secret" class="container">
-            <h2 class="gta-logo" style="font-size: 3rem;">DEALER TOOLS</h2>
-            <div class="item-card"><div style="font-size: 40px; margin-right: 20px;">📍</div><div><div class="item-name">Traqueur GPS Magnet</div><div class="price">$59</div></div></div>
-            <div class="item-card"><div style="font-size: 40px; margin-right: 20px;">📡</div><div><div class="item-name">Brouilleur Signal Pro</div><div class="price">$120</div></div></div>
+        <div class="product-card">
+            <div class="product-info">
+                <img src="se2020red.png" class="product-img">
+                <div><div class="product-name">SE 2020 Rouge</div><div class="product-price">160€</div></div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone SE 2020 Rouge', 160)">+</button>
+        </div>
+        <div class="product-card">
+            <div class="product-info">
+                <img src="se2022black.jpg" class="product-img">
+                <div><div class="product-name">SE 2022 Noir</div><div class="product-price">220€</div></div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone SE 2022 Noir', 220)">+</button>
         </div>
     </div>
 
-    <audio id="myAudio" loop><source src="SANDIEGO.mp3" type="audio/mpeg"></audio>
-
-    <div id="audio-controls">
-        <span onclick="toggleMute()" id="vol-icon" style="cursor:pointer; font-size: 1.5rem;">🔊</span>
+    <div id="secret" class="container">
+        <div class="product-card">
+            <div class="product-info">
+                <div style="font-size: 35px; margin-right: 15px;">📍</div>
+                <div><div class="product-name">Traqueur GPS</div><div class="product-price">59€</div></div>
+            </div>
+            <button class="add-btn" onclick="addToCart('Traqueur GPS', 59)">+</button>
+        </div>
     </div>
+</div>
 
-    <script>
-        const audio = document.getElementById('myAudio');
-        function startApp() {
-            audio.play();
-            document.getElementById('welcome-screen').style.transform = 'translateY(-100%)';
+<div id="cart-bar" onclick="openCart()">
+    <span id="cart-count">0 ARTICLE</span>
+    <span id="cart-total-bar">0€</span>
+</div>
+
+<div id="cart-modal">
+    <div class="close-cart" onclick="closeCart()">×</div>
+    <h2 style="font-family: 'Pricedown'; color: var(--blue); font-size: 2.5rem; margin: 0;">PANIER</h2>
+    <div id="cart-items-list" style="margin-top: 20px;"></div>
+    
+    <select id="shipping" class="shipping-select" onchange="updateTotal()">
+        <option value="0">Remise main propre (Obernai) - 0€</option>
+        <option value="10">Livraison (Strasbourg) - 10€</option>
+    </select>
+
+    <div style="font-size: 1.8rem; font-weight: 900;">TOTAL: <span id="cart-grand-total" style="color: #39FF14;">0€</span></div>
+    <button class="checkout-btn" onclick="sendOrder()">COMMANDER VIA TELEGRAM</button>
+</div>
+
+<audio id="myAudio" loop><source src="SANDIEGO.mp3" type="audio/mpeg"></audio>
+
+<script>
+    // CHARGEMENT
+    let progress = 0;
+    const fill = document.getElementById('fill');
+    const slides = [document.getElementById('slide1'), document.getElementById('slide2')];
+    let currentSlide = 0;
+
+    const interval = setInterval(() => {
+        progress += Math.random() * 20;
+        if (progress > 100) progress = 100;
+        fill.style.width = progress + "%";
+        if (progress === 100) {
+            clearInterval(interval);
             setTimeout(() => {
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('audio-controls').style.display = 'flex';
-            }, 1000);
+                document.getElementById('l-bar').style.display = 'none';
+                document.getElementById('enter-wrapper').style.display = 'flex';
+            }, 600);
         }
+    }, 500);
 
-        function showTab(tabId, el) {
-            document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            el.classList.add('active');
-        }
+    setInterval(() => {
+        slides[currentSlide].style.opacity = 0;
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].style.opacity = 1;
+    }, 4000);
 
-        function toggleMute() {
-            audio.muted = !audio.muted;
-            document.getElementById('vol-icon').innerText = audio.muted ? "🔇" : "🔊";
-        }
-    </script>
+    function startApp() {
+        document.getElementById('myAudio').play();
+        document.getElementById('loading-screen').style.transform = 'scale(1.5)';
+        document.getElementById('loading-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+        }, 800);
+    }
+
+    // BOUTIQUE
+    let cart = [];
+    function showSection(id) {
+        document.querySelectorAll('.container, #home-page').forEach(el => el.style.display = 'none');
+        document.getElementById(id === 'home' ? 'home-page' : id).style.display = (id === 'home' ? 'grid' : 'block');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        if(id !== 'home') document.getElementById('t-' + id).classList.add('active');
+        else document.getElementById('t-home').classList.add('active');
+    }
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        const bar = document.getElementById('cart-bar');
+        bar.style.display = 'flex';
+        document.getElementById('cart-count').innerText = cart.length + " ARTICLES";
+        let total = cart.reduce((sum, item) => sum + item.price, 0);
+        document.getElementById('cart-total-bar').innerText = total + "€";
+    }
+
+    function openCart() { document.getElementById('cart-modal').style.display = 'flex'; updateTotal(); }
+    function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+
+    function updateTotal() {
+        const list = document.getElementById('cart-items-list');
+        list.innerHTML = "";
+        let subtotal = 0;
+        cart.forEach(item => {
+            list.innerHTML += `<div class="order-row"><span>${item.name}</span><span>${item.price}€</span></div>`;
+            subtotal += item.price;
+        });
+        let ship = parseInt(document.getElementById('shipping').value);
+        document.getElementById('cart-grand-total').innerText = (subtotal + ship) + "€";
+    }
+
+    function sendOrder() {
+        let ship = parseInt(document.getElementById('shipping').value);
+        let total = cart.reduce((sum, item) => sum + item.price, 0) + ship;
+        let text = "Salut Bigo ! Nouvelle commande :\n\n";
+        cart.forEach(item => text += `- ${item.name} (${item.price}€)\n`);
+        text += `\nMode : ${ship === 0 ? "Obernai (0€)" : "Strasbourg (+10€)"}\nTOTAL : ${total}€`;
+        window.location.href = `https://t.me/ton_username?text=${encodeURIComponent(text)}`; // REMPLACE ton_username
+    }
+</script>
 </body>
 </html>
