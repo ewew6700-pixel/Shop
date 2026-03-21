@@ -5,287 +5,1467 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BIGO 67 - PREMIUM SHOP</title>
     <style>
-        @font-face { font-family: 'Pricedown'; src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); }
+        @font-face { 
+            font-family: 'Pricedown'; 
+            src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); 
+        }
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
-        :root { --pink: #ff00ff; --blue: #00f2ff; --bg: #050505; --green: #39FF14; --gray: #1a1a1a; --snap: #FFFC00; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg); color: white; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        :root { 
+            --pink: #ff00ff; 
+            --blue: #00f2ff; 
+            --bg: #050505; 
+            --green: #39FF14; 
+            --gray: #1a1a1a; 
+            --snap: #FFFC00;
+            --border: #222;
+        }
 
-        /* --- LE STYLE GTA (CONTOUR NOIR + OMBRE) --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        html, body { 
+            width: 100%; 
+            height: 100%; 
+            background: var(--bg); 
+            color: white; 
+            font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           STYLE GTA (CONTOUR NOIR ÉPAIS)
+           ============================================ */
         .gta-style {
             font-family: 'Pricedown', sans-serif;
             color: white;
             text-transform: uppercase;
             letter-spacing: 2px;
-            /* Le contour noir épais */
             text-shadow: 
                 -2px -2px 0 #000,  
                  2px -2px 0 #000,
                 -2px  2px 0 #000,
                  2px  2px 0 #000,
-                 4px  4px 5px rgba(0,0,0,0.8);
+                -2px  0px 0 #000,
+                 2px  0px 0 #000,
+                 0px -2px 0 #000,
+                 0px  2px 0 #000,
+                 3px  3px 5px rgba(0, 0, 0, 0.8);
         }
 
-        /* CHARGEMENT */
-        #loading-screen { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; transition: 0.8s; }
-        #enter-wrapper { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; background: url('homepage.jpg') no-repeat center center; background-size: cover; z-index: 1010; }
-        #enter-wrapper::before { content:''; position: absolute; inset:0; background: rgba(0,0,0,0.4); }
+        /* ============================================
+           ÉCRAN DE CHARGEMENT
+           ============================================ */
+        #loading-screen { 
+            position: fixed; 
+            inset: 0; 
+            background: #000; 
+            z-index: 9999; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-end; 
+            align-items: center;
+            transition: 0.8s ease-in-out;
+        }
+
+        #loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #enter-wrapper { 
+            position: absolute; 
+            inset: 0; 
+            display: none; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            z-index: 1010;
+        }
         
-        .flash-text { font-size: 4.5rem; animation: blink 1.2s infinite; margin-bottom: 20px; text-align: center; }
-        @keyframes blink { 50% { opacity: 0.4; } }
+        .flash-text { 
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            animation: blink 1.2s infinite; 
+            margin-bottom: 20px; 
+            text-align: center;
+        }
+
+        @keyframes blink { 
+            50% { opacity: 0.4; } 
+        }
 
         .enter-btn { 
-            position: relative; background: rgba(0,0,0,0.7); border: 3px solid #fff; color: #fff; 
-            padding: 12px 45px; cursor: pointer; border-radius: 8px; font-size: 2rem;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5); transition: 0.2s;
+            position: relative; 
+            background: rgba(0, 0, 0, 0.7); 
+            border: 3px solid #fff; 
+            color: #fff; 
+            padding: 12px 45px; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); 
+            transition: 0.2s ease;
         }
-        .enter-btn:active { transform: scale(0.95); }
 
-        /* INTERFACE */
-        #app-content { display: none; padding-bottom: 120px; }
-        header { padding: 25px 20px; text-align: center; border-bottom: 2px solid #222; background: #000; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 3rem; }
-        
-        .tabs { display: flex; justify-content: center; gap: 10px; background: #111; padding: 15px; border-bottom: 1px solid #333; position: sticky; top: 88px; z-index: 90; }
+        .enter-btn:active { 
+            transform: scale(0.95); 
+        }
+
+        .loading-bar-container {
+            width: 80%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #fff;
+            margin-bottom: 60px;
+            border-radius: 4px;
+            z-index: 1011;
+        }
+
+        .loading-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--pink);
+            box-shadow: 0 0 15px var(--pink);
+            transition: width 0.4s ease;
+            border-radius: 4px;
+        }
+
+        /* ============================================
+           INTERFACE PRINCIPALE
+           ============================================ */
+        #app-content { 
+            display: none; 
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+
+        header { 
+            padding: 25px 20px; 
+            text-align: center; 
+            border-bottom: 2px solid var(--border); 
+            background: #000; 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+        }
+
+        .logo { 
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin: 0;
+        }
+
+        /* ============================================
+           NAVIGATION TABS
+           ============================================ */
+        .tabs { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            background: #111; 
+            padding: 15px; 
+            border-bottom: 1px solid #333; 
+            position: sticky; 
+            top: 88px; 
+            z-index: 90;
+            flex-wrap: wrap;
+        }
+
         .tab { 
-            font-size: 1.2rem; color: #666; text-decoration: none; transition: 0.3s; 
-            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: #666; 
+            text-decoration: none; 
+            transition: 0.3s ease;
+            padding: 5px 10px;
+            cursor: pointer;
         }
-        .tab.active { color: var(--blue); transform: scale(1.1); }
 
-        /* PRODUITS */
-        #home-page { padding: 20px; display: grid; gap: 15px; }
-        .cat-card { height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; background-size: cover; background-position: center; position: relative; overflow: hidden; border: 2px solid #333; }
-        .cat-card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
-        .cat-card span { position: relative; z-index: 1; }
+        .tab:hover {
+            color: var(--blue);
+        }
 
-        .container { display: none; padding: 20px; }
-        .container.active { display: block; }
-        .product-card { background: var(--gray); border-radius: 12px; margin-bottom: 12px; padding: 15px; display: flex; align-items: center; border: 1px solid #222; }
-        .product-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; margin-right: 15px; }
-        .product-main { flex: 1; }
-        .product-name { font-weight: 700; font-size: 0.95rem; text-transform: uppercase; margin-bottom: 4px; }
-        .stock-badge { font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 4px; }
-        .instock { background: var(--green); color: #000; }
-        .outstock { background: #444; color: #aaa; }
-        .product-price { color: var(--green); font-weight: 900; font-size: 1.2rem; margin-top: 5px; }
-        .add-btn { background: var(--pink); border: none; color: white; width: 45px; height: 45px; border-radius: 12px; font-size: 1.8rem; font-weight: 900; cursor: pointer; }
+        .tab.active { 
+            color: var(--blue); 
+            transform: scale(1.1); 
+        }
 
-        /* MODALS */
-        #product-modal, #cart-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 2000; display: none; padding: 25px; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        #modal-img { width: 200px; height: 200px; border-radius: 20px; object-fit: cover; margin-bottom: 20px; border: 2px solid var(--pink); }
-        .modal-btns { display: grid; gap: 12px; width: 100%; max-width: 320px; }
-        .cmd-tg { background: var(--blue); color: #000; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
-        .cmd-snap { background: var(--snap); color: #000; padding: 14px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        /* ============================================
+           PAGE ACCUEIL
+           ============================================ */
+        #home-page { 
+            padding: 20px; 
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            min-height: 100vh;
+        }
 
-        #cart-bar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: var(--blue); color: #000; padding: 15px 25px; border-radius: 50px; display: none; justify-content: space-between; align-items: center; font-weight: 900; z-index: 500; }
-        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 3rem; color: var(--pink); cursor: pointer; font-family: 'Pricedown'; }
+        .welcome-section {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 242, 255, 0.1));
+            border: 2px solid var(--pink);
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin-bottom: 15px;
+        }
+
+        .welcome-text {
+            color: #ccc;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .contact-section {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .contact-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--blue);
+        }
+
+        .contact-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .contact-btn {
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .contact-btn-tg {
+            background: var(--blue);
+            color: #000;
+        }
+
+        .contact-btn-tg:hover {
+            background: #00e0ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .contact-btn-snap {
+            background: var(--snap);
+            color: #000;
+        }
+
+        .contact-btn-snap:hover {
+            background: #ffff33;
+            box-shadow: 0 0 20px rgba(255, 252, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        .contact-btn-copy {
+            background: var(--pink);
+            color: white;
+        }
+
+        .contact-btn-copy:hover {
+            background: #ff00ff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .contact-info {
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid var(--pink);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .contact-icon {
+            font-size: 1.3rem;
+        }
+
+        .contact-value {
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        /* ============================================
+           CONTENEURS DE PRODUITS
+           ============================================ */
+        .container { 
+            display: none; 
+            padding: 20px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .container.active { 
+            display: block;
+        }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; } 
+            to { opacity: 1; } 
+        }
+
+        /* ============================================
+           CARTES PRODUITS
+           ============================================ */
+        .product-card { 
+            background: var(--gray); 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            padding: 15px; 
+            display: flex; 
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            border-color: var(--pink);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .product-card.out-of-stock {
+            opacity: 0.6;
+            border-color: #444;
+        }
+
+        .product-card.out-of-stock:hover {
+            border-color: #444;
+            transform: none;
+        }
+
+        .product-img { 
+            width: 70px; 
+            height: 70px; 
+            border-radius: 8px; 
+            object-fit: cover;
+            background: var(--border);
+            flex-shrink: 0;
+        }
+
+        .product-img-emoji {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .product-main { 
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .product-name { 
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            text-transform: uppercase; 
+            margin-bottom: 8px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stock-badge { 
+            font-size: 0.65rem; 
+            font-weight: 900; 
+            padding: 4px 8px; 
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .instock { 
+            background: var(--green); 
+            color: #000;
+        }
+
+        .outstock { 
+            background: #ff6b6b; 
+            color: #fff;
+        }
+
+        .product-price { 
+            color: var(--green); 
+            font-weight: 900; 
+            font-size: 1.2rem; 
+            margin-top: 5px;
+        }
+
+        .add-btn { 
+            background: var(--pink); 
+            border: none; 
+            color: white; 
+            width: 45px; 
+            height: 45px; 
+            border-radius: 12px; 
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .add-btn:hover:not(:disabled) {
+            background: #ff00ff;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .add-btn:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .add-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* ============================================
+           MODALS
+           ============================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-btn { 
+            position: absolute; 
+            top: -15px;
+            right: -15px;
+            font-size: 2.5rem; 
+            color: var(--pink); 
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        #modal-img { 
+            width: 200px; 
+            height: 200px; 
+            border-radius: 20px; 
+            object-fit: cover; 
+            margin-bottom: 20px; 
+            border: 2px solid var(--pink);
+            background: var(--border);
+        }
+
+        .modal-title {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            margin: 15px 0;
+        }
+
+        .modal-stock {
+            margin: 15px 0;
+        }
+
+        .modal-description {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .modal-price {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--green);
+            margin: 20px 0;
+        }
+
+        .modal-btns { 
+            display: grid; 
+            gap: 12px; 
+            width: 100%;
+        }
+
+        .cmd-tg { 
+            background: var(--blue); 
+            color: #000; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 900; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .cmd-tg:hover {
+            background: #00e0ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        .cmd-snap { 
+            background: var(--snap); 
+            color: #000; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 900; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .cmd-snap:hover {
+            background: #ffff33;
+            box-shadow: 0 0 20px rgba(255, 252, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        .cmd-secondary {
+            background: none;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .cmd-secondary:hover:not(:disabled) {
+            border-color: var(--pink);
+            color: var(--pink);
+        }
+
+        .cmd-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            color: #666;
+            border-color: #666;
+        }
+
+        /* ============================================
+           PANIER
+           ============================================ */
+        #cart-bar { 
+            position: fixed; 
+            bottom: 20px; 
+            left: 5%; 
+            width: 90%; 
+            background: var(--blue); 
+            color: #000; 
+            padding: 15px 25px; 
+            border-radius: 50px; 
+            display: none; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-weight: 900; 
+            z-index: 500;
+            cursor: pointer;
+            animation: slideUp 0.3s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        #cart-bar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.6);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .cart-row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 15px; 
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-item-name {
+            flex: 1;
+            text-align: left;
+        }
+
+        .cart-item-price {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-remove-btn {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 900;
+            transition: color 0.3s ease;
+        }
+
+        .cart-remove-btn:hover {
+            color: #ff0000;
+        }
+
+        #cart-total-final {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin: 25px 0;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+
+        /* ============================================
+           BOUTON MUTE MUSIQUE
+           ============================================ */
+        #mute-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--pink);
+            border: 2px solid var(--blue);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 400;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+        }
+
+        #mute-btn:hover {
+            background: #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+            transform: scale(1.1);
+        }
+
+        #mute-btn:active {
+            transform: scale(0.95);
+        }
+
+        #mute-btn.muted {
+            background: #444;
+            border-color: #666;
+            box-shadow: 0 0 20px rgba(100, 100, 100, 0.4);
+        }
+
+        #mute-btn.muted:hover {
+            background: #555;
+            box-shadow: 0 0 30px rgba(100, 100, 100, 0.6);
+        }
+
+        /* ============================================
+           ALERTES
+           ============================================ */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 3000;
+            animation: slideDown 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert-success {
+            background: rgba(57, 255, 20, 0.2);
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .alert-error {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6b6b;
+            border: 1px solid #ff6b6b;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 480px) {
+            .gta-style {
+                letter-spacing: 1px;
+            }
+
+            .contact-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .product-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .product-name {
+                width: 100%;
+            }
+
+            .add-btn {
+                align-self: flex-end;
+            }
+
+            .cart-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .cart-item-price {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            #mute-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                bottom: 80px;
+                right: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
+<!-- ============================================
+     ÉCRAN DE CHARGEMENT
+     ============================================ -->
 <div id="loading-screen">
     <div id="enter-wrapper">
         <h1 class="flash-text gta-style">BIGO 67</h1>
         <button class="enter-btn gta-style" onclick="startApp()">START GAME</button>
     </div>
-    <div class="loading-bar-container" id="l-bar"><div class="loading-bar-fill" id="fill"></div></div>
+    <div class="loading-bar-container" id="l-bar">
+        <div class="loading-bar-fill" id="fill"></div>
+    </div>
 </div>
 
+<!-- ============================================
+     APPLICATION PRINCIPALE
+     ============================================ -->
 <div id="app-content">
-    <header><h1 class="logo gta-style">BIGO 67</h1></header>
+    <header>
+        <h1 class="logo gta-style">BIGO 67</h1>
+    </header>
+
     <nav class="tabs">
-        <a href="#" id="t-home" class="tab active gta-style" onclick="showSection('home')">Home</a>
-        <a href="#" id="t-iphone" class="tab gta-style" onclick="showSection('iphone')">iPhones</a>
-        <a href="#" id="t-secret" class="tab gta-style" onclick="showSection('secret')">Secret</a>
+        <a href="javascript:void(0)" id="t-home" class="tab active gta-style" onclick="showSection('home')">Home</a>
+        <a href="javascript:void(0)" id="t-iphone" class="tab gta-style" onclick="showSection('iphone')">📱 iPhones</a>
+        <a href="javascript:void(0)" id="t-samsung" class="tab gta-style" onclick="showSection('samsung')">📱 Samsung</a>
+        <a href="javascript:void(0)" id="t-secret" class="tab gta-style" onclick="showSection('secret')">🕵️</a>
     </nav>
 
+    <!-- PAGE ACCUEIL -->
     <div id="home-page">
-        <div class="cat-card" style="background-image: url('12miniblue.png');" onclick="showSection('iphone')"><span class="gta-style">iPHONES</span></div>
-        <div class="cat-card" style="background-color: #111; border: 2px solid var(--pink);" onclick="showSection('secret')"><span class="gta-style">SECRET 🕵️</span></div>
-    </div>
-
-    <div id="iphone" class="container">
-        <div class="product-card">
-            <img src="12minipurple.png" class="product-img" onclick="openProduct('12 Mini Mauve', 170, '12minipurple.png', true)">
-            <div class="product-main" onclick="openProduct('12 Mini Mauve', 170, '12minipurple.png', true)">
-                <div class="product-name">12 Mini Mauve <span class="stock-badge instock">DISPO</span></div>
-                <div class="product-price">170€</div>
-            </div>
-            <button class="add-btn" onclick="addToCart('12 Mini Mauve', 170)">+</button>
+        <!-- SECTION BIENVENUE -->
+        <div class="welcome-section">
+            <h2 class="welcome-title gta-style">Bienvenue chez BIGO 67</h2>
+            <p class="welcome-text">Smartphones premium vérifiés et certifiés. Qualité garantie, iCloud débloqué, batterie testée.</p>
         </div>
 
-        <div class="product-card">
-            <img src="12miniblue.png" class="product-img" onclick="openProduct('12 Mini Bleu', 170, '12miniblue.png', false)">
-            <div class="product-main" onclick="openProduct('12 Mini Bleu', 170, '12miniblue.png', false)">
-                <div class="product-name">12 Mini Bleu <span class="stock-badge outstock">ATTENTE</span></div>
-                <div class="product-price">170€</div>
+        <!-- SECTION CONTACTS -->
+        <div class="contact-section">
+            <h3 class="contact-title">📞 ME CONTACTER</h3>
+            
+            <div class="contact-buttons">
+                <a href="https://t.me/ler823" target="_blank" class="contact-btn contact-btn-tg">
+                    <span>💬</span> TELEGRAM
+                </a>
+                <a href="https://www.snapchat.com/add/bigo.67" target="_blank" class="contact-btn contact-btn-snap">
+                    <span>👻</span> SNAPCHAT
+                </a>
+                <button class="contact-btn contact-btn-copy" onclick="copyUsername('@ler823')">
+                    <span>📋</span> COPIER @ler823
+                </button>
             </div>
-            <button class="add-btn" onclick="addToCart('12 Mini Bleu', 170)">+</button>
-        </div>
 
-        <div class="product-card">
-            <img src="se2020black.png" class="product-img" onclick="openProduct('SE 2020 Noir', 160, 'se2020black.png', false)">
-            <div class="product-main" onclick="openProduct('SE 2020 Noir', 160, 'se2020black.png', false)">
-                <div class="product-name">SE 2020 Noir <span class="stock-badge outstock">ATTENTE</span></div>
-                <div class="product-price">160€</div>
+            <div class="contact-info">
+                <div class="contact-info-item">
+                    <span class="contact-icon">📱</span>
+                    <div>
+                        <div style="font-size: 0.8rem; color: #999;">Telegram:</div>
+                        <span class="contact-value">@ler823</span>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <span class="contact-icon">👻</span>
+                    <div>
+                        <div style="font-size: 0.8rem; color: #999;">Snapchat:</div>
+                        <span class="contact-value">@bigo.67</span>
+                    </div>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('SE 2020 Noir', 160)">+</button>
-        </div>
-
-        <div class="product-card">
-            <img src="8white.png" class="product-img" onclick="openProduct('8 Blanc', 85, '8white.png', false)">
-            <div class="product-main" onclick="openProduct('8 Blanc', 85, '8white.png', false)">
-                <div class="product-name">8 Blanc <span class="stock-badge outstock">ATTENTE</span></div>
-                <div class="product-price">85€</div>
-            </div>
-            <button class="add-btn" onclick="addToCart('8 Blanc', 85)">+</button>
-        </div>
-
-        <div class="product-card">
-            <img src="7black.png" class="product-img" onclick="openProduct('7 Noir', 60, '7black.png', false)">
-            <div class="product-main" onclick="openProduct('7 Noir', 60, '7black.png', false)">
-                <div class="product-name">7 Noir <span class="stock-badge outstock">ATTENTE</span></div>
-                <div class="product-price">60€</div>
-            </div>
-            <button class="add-btn" onclick="addToCart('7 Noir', 60)">+</button>
         </div>
     </div>
 
-    <div id="secret" class="container">
-        <div class="product-card">
-            <div style="font-size: 40px; margin-right: 15px;">📍</div>
-            <div class="product-main" onclick="openProduct('Traqueur GPS', 59, '', true)">
-                <div class="product-name">Traqueur GPS <span class="stock-badge instock">DISPO</span></div>
-                <div class="product-price">59€</div>
-            </div>
-            <button class="add-btn" onclick="addToCart('Traqueur GPS', 59)">+</button>
+    <!-- SECTION iPHONES -->
+    <div id="iphone" class="container"></div>
+
+    <!-- SECTION SAMSUNG -->
+    <div id="samsung" class="container"></div>
+
+    <!-- SECTION SECRET -->
+    <div id="secret" class="container"></div>
+</div>
+
+<!-- ============================================
+     MODAL PRODUIT
+     ============================================ -->
+<div id="product-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeProduct()">×</button>
+        <img id="modal-img" src="" alt="Produit">
+        <h2 id="modal-title" class="gta-style modal-title"></h2>
+        <div id="modal-stock" class="modal-stock"></div>
+        <p id="modal-description" class="modal-description"></p>
+        <div id="modal-price" class="modal-price"></div>
+        <div class="modal-btns">
+            <button class="cmd-tg" id="modal-cmd-tg" onclick="checkout('tg')">COMMANDER SUR TELEGRAM</button>
+            <button class="cmd-snap" id="modal-cmd-snap" onclick="checkout('snap')">COMMANDER SUR SNAPCHAT</button>
+            <button class="cmd-secondary" id="modal-add-btn" onclick="addFromModal()">AJOUTER AU PANIER</button>
         </div>
     </div>
 </div>
 
-<div id="product-modal">
-    <div class="close-btn" onclick="closeProduct()">×</div>
-    <img id="modal-img" src="">
-    <h2 id="modal-title" class="gta-style" style="font-size:2.5rem; margin-bottom:10px;"></h2>
-    <div id="modal-stock"></div>
-    <p style="color:#aaa; font-size:0.9rem; margin:15px 0; max-width: 300px;">Produit certifié BIGO 67. Batterie vérifiée, iCloud débloqué, testé sur 25 points de contrôle.</p>
-    <div id="modal-price" style="font-size: 2.2rem; font-weight: 900; color: var(--green); margin-bottom: 20px;"></div>
-    <div class="modal-btns">
-        <button class="cmd-tg" onclick="checkout('tg')">COMMANDER SUR TELEGRAM</button>
-        <button class="cmd-snap" onclick="checkout('snap')">COMMANDER SUR SNAPCHAT</button>
-        <button style="background:none; border:1px solid #555; color:#fff; padding:12px; border-radius:8px;" onclick="addFromModal()">AJOUTER AU PANIER</button>
+<!-- ============================================
+     MODAL PANIER
+     ============================================ -->
+<div id="cart-modal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeCart()">×</button>
+        <h2 class="gta-style" style="font-size: 2.5rem; color: var(--blue); margin-bottom: 25px;">PANIER</h2>
+        <div id="cart-items-list" style="width: 100%; max-height: 400px; overflow-y: auto; margin-bottom: 20px;"></div>
+        <div id="cart-total-final"></div>
+        <div class="modal-btns">
+            <button class="cmd-tg" onclick="checkout('tg')">VALIDER SUR TELEGRAM</button>
+            <button class="cmd-snap" onclick="checkout('snap')">VALIDER SUR SNAPCHAT</button>
+        </div>
     </div>
 </div>
 
-<div id="cart-modal">
-    <div class="close-btn" onclick="closeCart()">×</div>
-    <h2 class="gta-style" style="font-size:3rem; color:var(--blue); margin-bottom:25px;">PANIER</h2>
-    <div id="cart-items-list" style="flex:1; width: 100%;"></div>
-    <div id="cart-total-final" style="font-size: 2.2rem; font-weight: 900; margin-bottom: 25px; border-top: 1px solid #333; padding-top: 15px;"></div>
-    <div class="modal-btns">
-        <button class="cmd-tg" onclick="checkout('tg')">VALIDER SUR TELEGRAM</button>
-        <button class="cmd-snap" onclick="checkout('snap')">VALIDER SUR SNAPCHAT</button>
-    </div>
-</div>
-
+<!-- ============================================
+     PANIER FLOTTANT
+     ============================================ -->
 <div id="cart-bar" onclick="openCart()">
     <span id="cart-count">0 ARTICLE</span>
     <span id="cart-total-bar">0€</span>
 </div>
 
-<audio id="myAudio" loop><source src="SANDIEGO.mp3" type="audio/mpeg"></audio>
+<!-- ============================================
+     BOUTON MUTE MUSIQUE
+     ============================================ -->
+<button id="mute-btn" onclick="toggleMute()" title="Mute/Unmute">
+    <span id="mute-icon">🔊</span>
+</button>
 
+<!-- ============================================
+     AUDIO
+     ============================================ -->
+<audio id="myAudio" loop preload="none">
+    <source src="SANDIEGO.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ============================================
+     SCRIPTS
+     ============================================ -->
 <script>
+    // ============================================
+    // CONFIGURATION & STOCK AVEC PRIX ET DESCRIPTIONS
+    // ============================================
     const TG_USER = 'ler823';
     const SNAP_USER = 'bigo.67';
-    let cart = [];
-    let currentProd = {};
+    const STORAGE_KEY = 'bigo67_cart';
+    const MUTE_KEY = 'bigo67_muted';
 
+    // ============================================
+    // BASE DE DONNÉES PRODUITS - MODIFIER ICI
+    // ============================================
+    const PRODUCTS = {
+        'iphone-1': {
+            name: '12 Mini Violet 64GB',
+            price: 170,
+            description: 'iPhone 12 Mini en bon état. Batterie 85%. iCloud débloqué. Facile à utiliser et transportable.',
+            image: 'https://images.unsplash.com/photo-1592286927505-1fed5715c3da?w=300&h=300&fit=crop',
+            inStock: true,
+            maxQuantity: 1,
+            category: 'iphone'
+        },
+        'iphone-2': {
+            name: '12 Mini Bleu',
+            price: 170,
+            description: 'iPhone 12 Mini en couleur bleu. Batterie très bonne. iCloud débloqué. Bon rapport qualité-prix.',
+            image: 'https://images.unsplash.com/photo-1592286927505-1fed5715c3da?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'iphone'
+        },
+        'iphone-3': {
+            name: 'SE 2020 Noir',
+            price: 160,
+            description: 'iPhone SE 2020. Compact et performant. Batterie en bon état. iCloud débloqué.',
+            image: 'https://images.unsplash.com/photo-1597825481840-e6b99702eca0?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'iphone'
+        },
+        'iphone-4': {
+            name: '8 Blanc',
+            price: 85,
+            description: 'iPhone 8 blanc. Ancien modèle mais fiable. Batterie à vérifier. iCloud débloqué.',
+            image: 'https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'iphone'
+        },
+        'iphone-5': {
+            name: '7 Noir',
+            price: 60,
+            description: 'iPhone 7 noir. Classique et fiable. Batterie ancienne. iCloud débloqué.',
+            image: 'https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'iphone'
+        },
+        'samsung-1': {
+            name: 'Galaxy A12 Noir',
+            price: 150,
+            description: 'Samsung Galaxy A12. Écran 6.5 pouces. Batterie 4000mAh. Bon téléphone d\'entrée de gamme.',
+            image: 'https://images.unsplash.com/photo-1511297437691-4611063f2122?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'samsung'
+        },
+        'samsung-2': {
+            name: 'Galaxy S20 Bleu',
+            price: 350,
+            description: 'Samsung Galaxy S20. Haut de gamme avec caméra 64MP. Écran 120Hz. Très performant.',
+            image: 'https://images.unsplash.com/photo-1511297437691-4611063f2122?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'samsung'
+        },
+        'samsung-3': {
+            name: 'Galaxy A52 Noir',
+            price: 200,
+            description: 'Samsung Galaxy A52. Très bon rapport qualité-prix. Écran AMOLED. Batterie 4500mAh.',
+            image: 'https://images.unsplash.com/photo-1511297437691-4611063f2122?w=300&h=300&fit=crop',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'samsung'
+        },
+        'secret-1': {
+            name: 'Traqueur GPS',
+            price: 59,
+            description: 'Traqueur GPS discret. Batterie longue durée. Suivi en temps réel. Confidentiel.',
+            image: '',
+            inStock: false,
+            maxQuantity: 0,
+            category: 'secret'
+        }
+    };
+
+    // ============================================
+    // ÉTAT APPLICATION
+    // ============================================
+    let cart = [];
+    let currentProd = null;
+    let isMuted = localStorage.getItem(MUTE_KEY) === 'true';
+
+    // ============================================
+    // INITIALISATION
+    // ============================================
     function init() {
-        let p = 0;
+        loadCart();
+        startLoadingBar();
+        initMuteButton();
+        renderProducts();
+    }
+
+    function renderProducts() {
+        const categories = { iphone: 'iphone', samsung: 'samsung', secret: 'secret' };
+        
+        Object.keys(categories).forEach(cat => {
+            const container = document.getElementById(categories[cat]);
+            let html = '';
+
+            Object.keys(PRODUCTS).forEach(productId => {
+                const prod = PRODUCTS[productId];
+                if (prod.category === cat) {
+                    const outOfStock = !prod.inStock ? 'out-of-stock' : '';
+                    const badgeClass = prod.inStock ? 'instock' : 'outstock';
+                    const badgeText = prod.inStock ? 'DISPO' : 'RUPTURE';
+
+                    html += `
+                        <div class="product-card ${outOfStock}" id="card-${productId}">
+                            ${prod.image ? `<img src="${prod.image}" alt="${prod.name}" class="product-img">` : '<div class="product-img-emoji">📍</div>'}
+                            <div class="product-main" onclick="openProduct('${productId}')">
+                                <div class="product-name">
+                                    ${prod.name}
+                                    <span class="stock-badge ${badgeClass}">${badgeText}</span>
+                                </div>
+                                <div class="product-price">${prod.price}€</div>
+                            </div>
+                            <button class="add-btn" id="btn-${productId}" onclick="addToCart('${productId}')" ${!prod.inStock ? 'disabled' : ''}>+</button>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+        });
+    }
+
+    function initMuteButton() {
+        const muteBtn = document.getElementById('mute-btn');
+        updateMuteButtonUI();
+
+        if (isMuted) {
+            muteBtn.classList.add('muted');
+        }
+    }
+
+    function updateMuteButtonUI() {
+        const muteBtn = document.getElementById('mute-btn');
+        const muteIcon = document.getElementById('mute-icon');
+        
+        if (isMuted) {
+            muteBtn.classList.add('muted');
+            muteIcon.textContent = '🔇';
+        } else {
+            muteBtn.classList.remove('muted');
+            muteIcon.textContent = '🔊';
+        }
+    }
+
+    function toggleMute() {
+        const audio = document.getElementById('myAudio');
+        isMuted = !isMuted;
+        
+        if (isMuted) {
+            audio.pause();
+        } else {
+            audio.play().catch(() => {
+                console.log('Audio autoplay bloqué');
+            });
+        }
+        
+        localStorage.setItem(MUTE_KEY, isMuted);
+        updateMuteButtonUI();
+    }
+
+    function startLoadingBar() {
+        let progress = 0;
+        const fill = document.getElementById('fill');
+        
         const interval = setInterval(() => {
-            p += Math.random() * 20;
-            document.getElementById('fill').style.width = Math.min(p, 100) + "%";
-            if (p >= 100) {
+            progress += Math.random() * 25;
+            fill.style.width = Math.min(progress, 100) + "%";
+            
+            if (progress >= 100) {
                 clearInterval(interval);
-                document.getElementById('l-bar').style.display = 'none';
-                document.getElementById('enter-wrapper').style.display = 'flex';
+                setTimeout(() => {
+                    document.getElementById('l-bar').style.display = 'none';
+                    document.getElementById('enter-wrapper').style.display = 'flex';
+                }, 300);
             }
         }, 300);
     }
 
     function startApp() {
-        document.getElementById('myAudio').play().catch(()=> {});
-        document.getElementById('loading-screen').style.opacity = '0';
-        setTimeout(() => { document.getElementById('loading-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; }, 600);
-    }
-
-    function showSection(id) {
-        document.querySelectorAll('.container, #home-page').forEach(el => el.style.display = 'none');
-        document.getElementById(id === 'home' ? 'home-page' : id).style.display = (id === 'home' ? 'grid' : 'block');
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('t-' + id).classList.add('active');
-    }
-
-    function openProduct(name, price, img, available) {
-        currentProd = {name, price};
-        document.getElementById('modal-title').innerText = name;
-        document.getElementById('modal-price').innerText = price + "€";
-        document.getElementById('modal-img').src = img || '';
-        document.getElementById('modal-stock').innerHTML = available ? '<span class="stock-badge instock">EN STOCK</span>' : '<span class="stock-badge outstock">SUR COMMANDE</span>';
-        document.getElementById('product-modal').style.display = 'flex';
-    }
-
-    function closeProduct() { document.getElementById('product-modal').style.display = 'none'; }
-
-    function addToCart(name, price) {
-        if (cart.find(i => i.name === name)) { alert("Déjà dans le panier !"); return; }
-        cart.push({name, price});
-        updateCartUI();
-    }
-
-    function addFromModal() { addToCart(currentProd.name, currentProd.price); closeProduct(); }
-
-    function updateCartUI() {
-        const bar = document.getElementById('cart-bar');
-        bar.style.display = cart.length > 0 ? 'flex' : 'none';
-        let total = cart.reduce((s, i) => s + i.price, 0);
-        document.getElementById('cart-count').innerText = cart.length + " ARTICLE(S)";
-        document.getElementById('cart-total-bar').innerText = total + "€";
+        const audio = document.getElementById('myAudio');
         
-        let html = '';
-        cart.forEach((item, index) => {
-            html += `<div class="cart-row" style="display:flex; justify-content:space-between; padding:15px; border-bottom:1px solid #222;">
-                <span>${item.name}</span>
-                <span>${item.price}€ <b onclick="removeItem(${index})" style="color:red; margin-left:15px; cursor:pointer;">X</b></span>
-            </div>`;
-        });
-        document.getElementById('cart-items-list').innerHTML = html;
-        document.getElementById('cart-total-final').innerText = "TOTAL : " + total + "€";
+        if (!isMuted) {
+            audio.play().catch(() => {
+                console.log('Audio autoplay bloqué');
+            });
+        }
+
+        const loadingScreen = document.getElementById('loading-screen');
+        loadingScreen.classList.add('fade-out');
+        
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.getElementById('app-content').style.display = 'block';
+            showSection('home');
+        }, 800);
     }
 
-    function removeItem(idx) { cart.splice(idx, 1); updateCartUI(); if(cart.length === 0) closeCart(); }
-    function openCart() { document.getElementById('cart-modal').style.display = 'flex'; }
-    function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+    // ============================================
+    // NAVIGATION
+    // ============================================
+    function showSection(id) {
+        document.querySelectorAll('.container, #home-page').forEach(el => {
+            el.classList.remove('active');
+            el.style.display = 'none';
+        });
 
-    function checkout(platform) {
-        let orderList = cart.length > 0 ? cart : [currentProd];
-        let total = orderList.reduce((s, i) => s + i.price, 0);
-        let msg = "🛒 *NOUVELLE COMMANDE BIGO 67*\n\n";
-        orderList.forEach(i => msg += `• ${i.name} : ${i.price}€\n`);
-        msg += `\n💰 *TOTAL : ${total}€*`;
-        msg += "\n\nC'est dispo ?";
+        const isHome = id === 'home';
+        const target = document.getElementById(isHome ? 'home-page' : id);
+        
+        if (target) {
+            target.style.display = 'block';
+            target.classList.add('active');
+        }
 
-        if(platform === 'tg') {
-            window.open(`https://t.me/${TG_USER}?text=${encodeURIComponent(msg)}`, '_blank');
-        } else {
-            window.open(`https://www.snapchat.com/add/${SNAP_USER}`, '_blank');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        const tabId = 't-' + id;
+        const tab = document.getElementById(tabId);
+        if (tab) {
+            tab.classList.add('active');
         }
     }
 
+    // ============================================
+    // MODAL PRODUIT
+    // ============================================
+    function openProduct(productId) {
+        const prod = PRODUCTS[productId];
+        if (!prod) return;
+
+        currentProd = { ...prod, id: productId };
+        
+        document.getElementById('modal-title').innerText = prod.name;
+        document.getElementById('modal-price').innerText = prod.price + '€';
+        document.getElementById('modal-description').innerText = prod.description;
+        
+        const imgEl = document.getElementById('modal-img');
+        if (prod.image) {
+            imgEl.src = prod.image;
+            imgEl.style.display = 'block';
+        } else {
+            imgEl.style.display = 'none';
+        }
+        
+        const stockHtml = prod.inStock 
+            ? '<span class="stock-badge instock">EN STOCK (1 exemplaire)</span>' 
+            : '<span class="stock-badge outstock">RUPTURE DE STOCK</span>';
+        document.getElementById('modal-stock').innerHTML = stockHtml;
+
+        const addBtn = document.getElementById('modal-add-btn');
+        const cmdTg = document.getElementById('modal-cmd-tg');
+        const cmdSnap = document.getElementById('modal-cmd-snap');
+        
+        if (!prod.inStock) {
+            addBtn.disabled = true;
+            cmdTg.disabled = true;
+            cmdSnap.disabled = true;
+        } else {
+            addBtn.disabled = isProductInCart(prod.name);
+            cmdTg.disabled = false;
+            cmdSnap.disabled = false;
+        }
+        
+        document.getElementById('product-modal').classList.add('active');
+    }
+
+    function closeProduct() {
+        document.getElementById('product-modal').classList.remove('active');
+    }
+
+    // ============================================
+    // GESTION DU PANIER
+    // ============================================
+    function isProductInCart(name) {
+        return cart.some(item => item.name === name);
+    }
+
+    function addToCart(productId) {
+        const prod = PRODUCTS[productId];
+        if (!prod) return;
+
+        if (!prod.inStock) {
+            showAlert('Produit rupture de stock !', 'error');
+            return;
+        }
+
+        if (isProductInCart(prod.name)) {
+            showAlert('Vous avez déjà cet article au panier !', 'error');
+            return;
+        }
+
+        cart.push({ id: Date.now(), name: prod.name, price: prod.price, productId });
+        saveCart();
+        updateCartUI();
+        updateButtonStates();
+        showAlert(prod.name + ' ajouté ✓', 'success');
+    }
+
+    function addFromModal() {
+        if (currentProd && currentProd.id) {
+            addToCart(currentProd.id);
+            closeProduct();
+        }
+    }
+
+    function removeFromCart(itemId) {
+        cart = cart.filter(item => item.id !== itemId);
+        saveCart();
+        updateCartUI();
+        updateButtonStates();
+        
+        if (cart.length === 0) {
+            closeCart();
+        }
+    }
+
+    function updateButtonStates() {
+        Object.keys(PRODUCTS).forEach(productId => {
+            const btn = document.getElementById(`btn-${productId}`);
+            if (btn) {
+                const prod = PRODUCTS[productId];
+                const isInCart = isProductInCart(prod.name);
+                const isInStock = prod.inStock;
+                
+                btn.disabled = !isInStock || isInCart;
+            }
+        });
+    }
+
+    function updateCartUI() {
+        const bar = document.getElementById('cart-bar');
+        const list = document.getElementById('cart-items-list');
+        const totalFinal = document.getElementById('cart-total-final');
+        
+        if (cart.length === 0) {
+            bar.style.display = 'none';
+            list.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Votre panier est vide</p>';
+            return;
+        }
+
+        bar.style.display = 'flex';
+
+        let html = '';
+        let subtotal = 0;
+
+        cart.forEach(item => {
+            subtotal += item.price;
+            html += `
+                <div class="cart-row">
+                    <span class="cart-item-name">${item.name}</span>
+                    <div class="cart-item-price">
+                        <span>${item.price}€</span>
+                        <button class="cart-remove-btn" onclick="removeFromCart(${item.id})">✕</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        list.innerHTML = html;
+
+        document.getElementById('cart-count').innerText = `${cart.length} ARTICLE${cart.length > 1 ? 'S' : ''}`;
+        document.getElementById('cart-total-bar').innerText = subtotal + '€';
+        totalFinal.innerHTML = `<div style="color: var(--green); font-weight: 900;">TOTAL : ${subtotal}€</div>`;
+    }
+
+    function openCart() {
+        if (cart.length === 0) {
+            showAlert('Votre panier est vide', 'error');
+            return;
+        }
+        document.getElementById('cart-modal').classList.add('active');
+    }
+
+    function closeCart() {
+        document.getElementById('cart-modal').classList.remove('active');
+    }
+
+    // ============================================
+    // COMMANDES
+    // ============================================
+    function checkout(platform) {
+        let orderList = cart.length > 0 ? cart : (currentProd ? [currentProd] : []);
+        
+        if (orderList.length === 0) {
+            showAlert('Aucun produit sélectionné', 'error');
+            return;
+        }
+
+        const total = orderList.reduce((sum, item) => sum + item.price, 0);
+        
+        let message = '🛒 *NOUVELLE COMMANDE BIGO 67*\n\n';
+        message += '📦 *PRODUITS:*\n';
+        orderList.forEach(item => {
+            message += `• ${item.name} - ${item.price}€\n`;
+        });
+        message += `\n💰 *TOTAL: ${total}€*\n`;
+        message += '\n⏳ C\'est dispo ?';
+
+        if (platform === 'tg') {
+            const url = `https://t.me/${TG_USER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        } else if (platform === 'snap') {
+            window.open(`https://www.snapchat.com/add/${SNAP_USER}`, '_blank');
+        }
+
+        if (cart.length > 0) {
+            cart = [];
+            saveCart();
+            document.getElementById('cart-modal').classList.remove('active');
+            document.getElementById('cart-bar').style.display = 'none';
+            updateButtonStates();
+            showAlert('Commande envoyée ✓', 'success');
+        }
+    }
+
+    // ============================================
+    // STOCKAGE LOCAL
+    // ============================================
+    function saveCart() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+        } catch (e) {
+            console.error('Erreur stockage:', e);
+        }
+    }
+
+    function loadCart() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                cart = JSON.parse(saved);
+                updateCartUI();
+                updateButtonStates();
+            }
+        } catch (e) {
+            console.error('Erreur chargement:', e);
+            cart = [];
+        }
+    }
+
+    // ============================================
+    // UTILITAIRES
+    // ============================================
+    function showAlert(message, type = 'success') {
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type}`;
+        alert.textContent = message;
+        
+        document.body.appendChild(alert);
+
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            alert.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => alert.remove(), 300);
+        }, 3000);
+    }
+
+    function copyUsername(username) {
+        navigator.clipboard.writeText(username).then(() => {
+            showAlert(username + ' copié ! ✓', 'success');
+        }).catch(() => {
+            showAlert('Erreur lors de la copie', 'error');
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (e.target.id === 'product-modal') {
+            closeProduct();
+        }
+        if (e.target.id === 'cart-modal') {
+            closeCart();
+        }
+    });
+
     document.addEventListener('DOMContentLoaded', init);
 </script>
+
 </body>
 </html>
