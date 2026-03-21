@@ -5,1006 +5,174 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BIGO 67 - PREMIUM SHOP</title>
     <style>
-        @font-face { 
-            font-family: 'Pricedown'; 
-            src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); 
-        }
+        @font-face { font-family: 'Pricedown'; src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
 
-        :root { 
-            --pink: #ff00ff; 
-            --blue: #00f2ff; 
-            --bg: #050505;
-            --green: #39FF14;
-            --dark-gray: #111;
-            --border-gray: #222;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body { 
-            background: var(--bg); 
-            color: white; 
-            font-family: 'Inter', sans-serif; 
-            overflow-x: hidden;
-        }
-
-        /* ============================================
-           ÉCRAN DE CHARGEMENT
-           ============================================ */
-        #loading-screen {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 500;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            transition: 0.8s ease-in-out;
-        }
-
-        .slide-bg {
-            position: absolute;
-            inset: 0;
-            background-size: cover;
-            background-position: center;
-            animation: kenburns 10s infinite alternate;
-            opacity: 0;
-            transition: opacity 1.5s;
-        }
-
-        @keyframes kenburns { 
-            from { transform: scale(1); } 
-            to { transform: scale(1.2); } 
-        }
-
-        .loading-bar-container { 
-            width: 80%; 
-            height: 8px; 
-            background: rgba(255, 255, 255, 0.1); 
-            border: 2px solid #fff; 
-            margin-bottom: 60px; 
-            z-index: 510;
-            border-radius: 4px;
-        }
-
-        .loading-bar-fill { 
-            height: 100%; 
-            width: 0%; 
-            background: var(--pink); 
-            box-shadow: 0 0 15px var(--pink); 
-            transition: width 0.4s;
-            border-radius: 4px;
-        }
-
-        #enter-wrapper { 
-            position: absolute; 
-            inset: 0; 
-            display: none; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            background: rgba(0, 0, 0, 0.7); 
-            z-index: 520; 
-            backdrop-filter: blur(8px);
-        }
-
-        .flash-text { 
-            font-family: 'Pricedown'; 
-            font-size: 4.5rem; 
-            color: #fff; 
-            text-shadow: 0 0 20px var(--blue); 
-            animation: blink 1s infinite; 
-            margin-bottom: 30px;
-        }
-
-        @keyframes blink { 
-            50% { opacity: 0.2; } 
-        }
-
-        .enter-btn {
-            font-family: 'Pricedown';
-            font-size: 2.2rem;
-            background: none;
-            border: 3px solid #fff;
-            color: #fff;
-            padding: 15px 40px;
-            cursor: pointer;
-            box-shadow: 0 0 20px var(--pink);
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .enter-btn:hover {
-            background: var(--pink);
-            transform: scale(1.05);
-        }
-
-        /* ============================================
-           INTERFACE PRINCIPALE
-           ============================================ */
-        #app-content { 
-            display: none; 
-            min-height: 100vh; 
-            padding-bottom: 120px;
-        }
-
-        header { 
-            padding: 15px; 
-            text-align: center; 
-            border-bottom: 1px solid var(--border-gray); 
-            background: rgba(0, 0, 0, 0.95); 
-            position: sticky; 
-            top: 0; 
-            z-index: 100;
-        }
-
-        .logo { 
-            font-family: 'Pricedown'; 
-            font-size: 2.8rem; 
-            color: #fff; 
-            text-shadow: 0 0 10px var(--pink); 
-            margin: 0; 
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        /* ============================================
-           NAVIGATION TABS
-           ============================================ */
-        .tabs { 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-            padding: 12px; 
-            background: var(--dark-gray); 
-            border-bottom: 1px solid var(--border-gray);
-            overflow-x: auto;
-            flex-wrap: wrap;
-        }
-
-        .tab { 
-            font-size: 0.75rem; 
-            color: #666; 
-            text-decoration: none; 
-            text-transform: uppercase; 
-            font-weight: 900; 
-            letter-spacing: 1.5px;
-            padding: 8px 0;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .tab:hover {
-            color: var(--blue);
-        }
-
-        .tab.active { 
-            color: var(--blue); 
-            border-bottom-color: var(--blue);
-        }
-
-        /* ============================================
-           SECTION ACCUEIL
-           ============================================ */
-        #home-page { 
-            padding: 20px; 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 20px;
-        }
-
-        .category-card { 
-            height: 140px; 
-            border-radius: 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-family: 'Pricedown'; 
-            font-size: 2.2rem; 
-            border: 1px solid var(--border-gray); 
-            background-size: cover; 
-            background-position: center;
-            position: relative; 
-            overflow: hidden; 
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .category-card::before { 
-            content: ''; 
-            position: absolute; 
-            inset: 0; 
-            background: rgba(0, 0, 0, 0.5);
-            transition: background 0.3s ease;
-        }
-
-        .category-card:hover::before {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .category-card span { 
-            position: relative; 
-            z-index: 1; 
-            text-shadow: 2px 2px 10px #000; 
-            letter-spacing: 2px;
-        }
-
-        /* ============================================
-           CONTENEURS DE PRODUITS
-           ============================================ */
-        .container { 
-            display: none; 
-            padding: 20px; 
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        .container.active { 
-            display: block;
-        }
-
-        @keyframes fadeIn { 
-            from { opacity: 0; } 
-            to { opacity: 1; } 
-        }
-
-        /* ============================================
-           CARTES PRODUITS
-           ============================================ */
-        .product-card { 
-            background: var(--dark-gray); 
-            border-radius: 12px; 
-            margin-bottom: 15px; 
-            padding: 12px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            border: 1px solid var(--border-gray);
-            transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-            border-color: var(--pink);
-            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.2);
-        }
-
-        .product-info { 
-            display: flex; 
-            align-items: center;
-            flex: 1;
-        }
-
-        .product-img { 
-            width: 70px; 
-            height: 70px; 
-            border-radius: 8px; 
-            margin-right: 15px; 
-            object-fit: cover;
-            background: var(--border-gray);
-        }
-
-        .product-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-name { 
-            font-weight: 900; 
-            font-size: 0.9rem; 
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .product-price { 
-            color: var(--green); 
-            font-weight: 900; 
-            font-size: 1.2rem; 
-            margin-top: 5px;
-        }
-
-        .add-btn { 
-            background: var(--pink); 
-            border: none; 
-            color: white; 
-            padding: 10px 15px; 
-            border-radius: 8px; 
-            font-weight: 900; 
-            cursor: pointer; 
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            margin-left: 15px;
-            flex-shrink: 0;
-        }
-
-        .add-btn:hover {
-            background: #ff00ff;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-            transform: scale(1.1);
-        }
-
-        .add-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* ============================================
-           PANIER BARRE FLOTTANTE
-           ============================================ */
-        #cart-bar { 
-            position: fixed; 
-            bottom: 25px; 
-            left: 5%; 
-            width: 90%; 
-            background: var(--blue); 
-            color: black; 
-            padding: 18px; 
-            border-radius: 50px; 
-            display: none; 
-            justify-content: space-between; 
-            align-items: center; 
-            font-weight: 900; 
-            z-index: 200; 
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        #cart-bar:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.6);
-        }
-
-        #cart-count {
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        #cart-total-bar {
-            font-size: 1.3rem;
-        }
-
-        /* ============================================
-           MODAL PANIER
-           ============================================ */
-        #cart-modal { 
-            position: fixed; 
-            inset: 0; 
-            background: var(--bg); 
-            z-index: 600; 
-            display: none; 
-            padding: 25px; 
-            flex-direction: column;
-            overflow-y: auto;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .close-cart { 
-            text-align: right; 
-            font-size: 2.5rem; 
-            color: var(--pink); 
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .close-cart:hover {
-            transform: rotate(90deg);
-        }
-
-        .cart-title {
-            font-family: 'Pricedown';
-            color: var(--blue);
-            font-size: 2.5rem;
-            margin: 0 0 20px 0;
-        }
-
-        #cart-items-list {
-            margin: 20px 0;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .order-row { 
-            display: flex; 
-            justify-content: space-between; 
-            padding: 15px 0; 
-            border-bottom: 1px solid var(--border-gray); 
-            font-size: 0.9rem;
-            align-items: center;
-        }
-
-        .order-row-item {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex: 1;
-        }
-
-        .remove-item-btn {
-            background: none;
-            border: none;
-            color: #ff6b6b;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .remove-item-btn:hover {
-            color: #ff0000;
-        }
-
-        .shipping-select { 
-            width: 100%; 
-            padding: 18px; 
-            background: var(--dark-gray); 
-            color: white; 
-            border: 2px solid var(--blue); 
-            border-radius: 12px; 
-            margin: 25px 0; 
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: border-color 0.3s ease;
-        }
-
-        .shipping-select:focus {
-            outline: none;
-            border-color: var(--pink);
-        }
-
-        .total-section {
-            font-size: 1.8rem;
-            font-weight: 900;
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 0, 255, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid var(--pink);
-        }
-
-        #cart-grand-total {
-            color: var(--green);
-            font-size: 2rem;
-        }
-
-        .checkout-btn { 
-            width: 100%; 
-            padding: 20px; 
-            background: var(--green); 
-            color: black; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: 900; 
-            font-size: 1.2rem; 
-            margin-top: auto;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .checkout-btn:hover {
-            background: #50ff00;
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
-            transform: scale(1.02);
-        }
-
-        .checkout-btn:active {
-            transform: scale(0.98);
-        }
-
-        .checkout-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            opacity: 0.5;
-        }
-
-        /* ============================================
-           MESSAGES D'ALERTE
-           ============================================ */
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-weight: 600;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .alert-success {
-            background: rgba(57, 255, 20, 0.2);
-            color: var(--green);
-            border: 1px solid var(--green);
-        }
-
-        .alert-error {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff6b6b;
-            border: 1px solid #ff6b6b;
-        }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
-        @media (max-width: 480px) {
-            .flash-text {
-                font-size: 3rem;
-            }
-
-            .logo {
-                font-size: 2rem;
-            }
-
-            .category-card {
-                font-size: 1.5rem;
-            }
-
-            .product-card {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-
-            .add-btn {
-                align-self: flex-end;
-                margin-left: 0;
-            }
-        }
+        :root { --pink: #ff00ff; --blue: #00f2ff; --bg: #050505; --green: #39FF14; --dark-gray: #111; --border-gray: #222; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* CHARGEMENT GTA */
+        #loading-screen { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; transition: 0.8s ease-in-out; }
+        .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; animation: kenburns 10s infinite alternate; opacity: 0; transition: opacity 1.5s; }
+        @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.2); } }
+        .loading-bar-container { width: 80%; height: 8px; background: rgba(255, 255, 255, 0.1); border: 2px solid #fff; margin-bottom: 60px; z-index: 510; border-radius: 4px; }
+        .loading-bar-fill { height: 100%; width: 0%; background: var(--pink); box-shadow: 0 0 15px var(--pink); transition: width 0.4s; border-radius: 4px; }
+        #enter-wrapper { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.7); z-index: 520; backdrop-filter: blur(8px); }
+        .flash-text { font-family: 'Pricedown'; font-size: 4.5rem; color: #fff; text-shadow: 0 0 20px var(--blue); animation: blink 1s infinite; margin-bottom: 30px; }
+        @keyframes blink { 50% { opacity: 0.2; } }
+        .enter-btn { font-family: 'Pricedown'; font-size: 2.2rem; background: none; border: 3px solid #fff; color: #fff; padding: 15px 40px; cursor: pointer; box-shadow: 0 0 20px var(--pink); border-radius: 5px; }
+
+        /* INTERFACE */
+        #app-content { display: none; min-height: 100vh; padding-bottom: 120px; }
+        header { padding: 15px; text-align: center; border-bottom: 1px solid var(--border-gray); background: rgba(0, 0, 0, 0.95); position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Pricedown'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--pink); margin: 0; }
+        .tabs { display: flex; justify-content: center; gap: 20px; padding: 12px; background: var(--dark-gray); border-bottom: 1px solid var(--border-gray); }
+        .tab { font-size: 0.75rem; color: #666; text-decoration: none; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; padding: 8px 0; border-bottom: 2px solid transparent; }
+        .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+        /* PRODUITS */
+        #home-page { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .category-card { height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Pricedown'; font-size: 2.2rem; border: 1px solid var(--border-gray); background-size: cover; background-position: center; position: relative; overflow: hidden; }
+        .category-card::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); }
+        .category-card span { position: relative; z-index: 1; text-shadow: 2px 2px 10px #000; }
+        .container { display: none; padding: 20px; }
+        .container.active { display: block; }
+        .product-card { background: var(--dark-gray); border-radius: 12px; margin-bottom: 15px; padding: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border-gray); }
+        .product-info { display: flex; align-items: center; flex: 1; }
+        .product-img { width: 70px; height: 70px; border-radius: 8px; margin-right: 15px; object-fit: cover; }
+        .product-name { font-weight: 900; font-size: 0.85rem; text-transform: uppercase; }
+        .product-price { color: var(--green); font-weight: 900; font-size: 1.2rem; }
+        .add-btn { background: var(--pink); border: none; color: white; padding: 10px 15px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+
+        /* PANIER */
+        #cart-bar { position: fixed; bottom: 25px; left: 5%; width: 90%; background: var(--blue); color: black; padding: 18px; border-radius: 50px; display: none; justify-content: space-between; align-items: center; font-weight: 900; z-index: 200; }
+        #cart-modal { position: fixed; inset: 0; background: var(--bg); z-index: 600; display: none; padding: 25px; flex-direction: column; overflow-y: auto; }
+        .close-cart { text-align: right; font-size: 2.5rem; color: var(--pink); }
+        .cart-title { font-family: 'Pricedown'; color: var(--blue); font-size: 2.5rem; }
+        .shipping-select { width: 100%; padding: 18px; background: var(--dark-gray); color: white; border: 2px solid var(--blue); border-radius: 12px; margin: 25px 0; font-weight: bold; }
+        .checkout-btn { width: 100%; padding: 20px; background: var(--green); color: black; border: none; border-radius: 12px; font-weight: 900; font-size: 1.2rem; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<!-- ============================================
-     ÉCRAN DE CHARGEMENT
-     ============================================ -->
 <div id="loading-screen">
-    <div id="slide1" class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1556656793-08538906a9f8?w=1200&h=600&fit=crop'); opacity: 1;"></div>
-    <div id="slide2" class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=1200&h=600&fit=crop');"></div>
-    
+    <div id="slide1" class="slide-bg" style="background-image: url('se2022black.jpg'); opacity: 1;"></div>
+    <div id="slide2" class="slide-bg" style="background-image: url('12miniblue.png');"></div>
     <div id="enter-wrapper">
         <h1 class="flash-text">BIGO 67</h1>
         <button class="enter-btn" onclick="startApp()">START GAME</button>
     </div>
-
-    <div class="loading-bar-container" id="l-bar">
-        <div class="loading-bar-fill" id="fill"></div>
-    </div>
+    <div class="loading-bar-container" id="l-bar"><div class="loading-bar-fill" id="fill"></div></div>
 </div>
 
-<!-- ============================================
-     APPLICATION PRINCIPALE
-     ============================================ -->
 <div id="app-content">
-    <header>
-        <h1 class="logo" onclick="showSection('home')">BIGO 67</h1>
-    </header>
-
+    <header><h1 class="logo" onclick="showSection('home')">BIGO 67</h1></header>
     <nav class="tabs">
         <a href="javascript:void(0)" id="t-home" class="tab active" onclick="showSection('home')">Accueil</a>
         <a href="javascript:void(0)" id="t-iphone" class="tab" onclick="showSection('iphone')">iPhones</a>
-        <a href="javascript:void(0)" id="t-samsung" class="tab" onclick="showSection('samsung')">Samsung</a>
         <a href="javascript:void(0)" id="t-secret" class="tab" onclick="showSection('secret')">Inspecteur 🕵️</a>
     </nav>
 
-    <!-- SECTION ACCUEIL -->
     <div id="home-page">
-        <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=600&h=400&fit=crop');" onclick="showSection('iphone')"><span>iPHONES</span></div>
-        <div class="category-card" style="background-image: url('https://images.unsplash.com/photo-1511297437691-4611063f2122?w=600&h=400&fit=crop');" onclick="showSection('samsung')"><span>SAMSUNG</span></div>
+        <div class="category-card" style="background-image: url('12miniblue.png');" onclick="showSection('iphone')"><span>iPHONES</span></div>
         <div class="category-card" style="background-color: #1a1a1a; border: 2px solid var(--pink);" onclick="showSection('secret')"><span>INSPECTEUR 🕵️</span></div>
     </div>
 
-    <!-- SECTION iPHONES -->
     <div id="iphone" class="container">
-        <div class="product-card">
-            <div class="product-info">
-                <img src="https://images.unsplash.com/photo-1592286927505-1fed5715c3da?w=100&h=100&fit=crop" alt="iPhone 12 Mini" class="product-img">
-                <div class="product-details">
-                    <div class="product-name">12 Mini Bleu</div>
-                    <div class="product-price">280€</div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addToCart('iPhone 12 Mini Bleu', 280)">+</button>
-        </div>
-
-        <div class="product-card">
-            <div class="product-info">
-                <img src="https://images.unsplash.com/photo-1597825481840-e6b99702eca0?w=100&h=100&fit=crop" alt="iPhone SE 2020" class="product-img">
-                <div class="product-details">
-                    <div class="product-name">SE 2020 Rouge</div>
-                    <div class="product-price">160€</div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addToCart('iPhone SE 2020 Rouge', 160)">+</button>
-        </div>
-
-        <div class="product-card">
-            <div class="product-info">
-                <img src="https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=100&h=100&fit=crop" alt="iPhone SE 2022" class="product-img">
-                <div class="product-details">
-                    <div class="product-name">SE 2022 Noir</div>
-                    <div class="product-price">220€</div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addToCart('iPhone SE 2022 Noir', 220)">+</button>
-        </div>
+        <div class="product-card"><div class="product-info"><img src="12miniblue.png" class="product-img"><div><div class="product-name">12 Mini Bleu</div><div class="product-price">170€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 12 Mini Bleu', 170)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="12minipurple.png" class="product-img"><div><div class="product-name">12 Mini Mauve</div><div class="product-price">170€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 12 Mini Mauve', 170)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="se2022black.jpg" class="product-img"><div><div class="product-name">SE 2022 Noir</div><div class="product-price">220€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2022 Noir', 220)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="se2020black.png" class="product-img"><div><div class="product-name">SE 2020 Noir</div><div class="product-price">160€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2020 Noir', 160)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="se2020red.png" class="product-img"><div><div class="product-name">SE 2020 Rouge</div><div class="product-price">160€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2020 Rouge', 160)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="se2020white.png" class="product-img"><div><div class="product-name">SE 2020 Blanc</div><div class="product-price">160€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2020 Blanc', 160)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="8white.png" class="product-img"><div><div class="product-name">8 Blanc</div><div class="product-price">85€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 8 Blanc', 85)">+</button></div>
+        <div class="product-card"><div class="product-info"><img src="7black.png" class="product-img"><div><div class="product-name">7 Noir</div><div class="product-price">60€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 7 Noir', 60)">+</button></div>
     </div>
 
-    <!-- SECTION SAMSUNG -->
-    <div id="samsung" class="container">
-        <div class="product-card">
-            <div class="product-info">
-                <img src="https://images.unsplash.com/photo-1511297437691-4611063f2122?w=100&h=100&fit=crop" alt="Samsung Galaxy A12" class="product-img">
-                <div class="product-details">
-                    <div class="product-name">Galaxy A12 Noir</div>
-                    <div class="product-price">150€</div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addToCart('Samsung Galaxy A12 Noir', 150)">+</button>
-        </div>
-
-        <div class="product-card">
-            <div class="product-info">
-                <img src="https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=100&h=100&fit=crop" alt="Samsung Galaxy S20" class="product-img">
-                <div class="product-details">
-                    <div class="product-name">Galaxy S20 Bleu</div>
-                    <div class="product-price">350€</div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addToCart('Samsung Galaxy S20 Bleu', 350)">+</button>
-        </div>
-    </div>
-
-    <!-- SECTION SPÉCIALE -->
     <div id="secret" class="container">
-        <div class="product-card">
-            <div class="product-info">
-                <div style="font-size: 50px; margin-right: 15px;">📍</div>
-                <div class="product-details">
-                    <div class="product-name">Traqueur GPS</div>
-                    <div class="product-price">59€</div>
-                </div>
-            </div>
-            <button class="add-btn" onclick="addToCart('Traqueur GPS', 59)">+</button>
-        </div>
+        <div class="product-card"><div class="product-info"><div style="font-size: 40px; margin-right: 15px;">📍</div><div><div class="product-name">Traqueur GPS</div><div class="product-price">59€</div></div></div><button class="add-btn" onclick="addToCart('Traqueur GPS', 59)">+</button></div>
     </div>
 </div>
 
-<!-- ============================================
-     PANIER FLOTTANT
-     ============================================ -->
-<div id="cart-bar" onclick="openCart()">
-    <span id="cart-count">0 ARTICLE</span>
-    <span id="cart-total-bar">0€</span>
-</div>
+<div id="cart-bar" onclick="openCart()"><span id="cart-count">0 ARTICLE</span><span id="cart-total-bar">0€</span></div>
 
-<!-- ============================================
-     MODAL PANIER
-     ============================================ -->
 <div id="cart-modal">
     <div class="close-cart" onclick="closeCart()">✕</div>
     <h2 class="cart-title">PANIER</h2>
     <div id="cart-items-list"></div>
-    
     <select id="shipping" class="shipping-select" onchange="updateCartDisplay()">
         <option value="0">📍 Remise main propre (Obernai) - 0€</option>
         <option value="10">🚚 Livraison (Strasbourg) - 10€</option>
     </select>
-
-    <div class="total-section">
-        TOTAL: <span id="cart-grand-total">0€</span>
-    </div>
-
-    <button class="checkout-btn" id="checkout-btn" onclick="sendOrder()">COMMANDER VIA TELEGRAM</button>
+    <div style="font-size: 1.8rem; font-weight: 900; margin: 20px 0;">TOTAL: <span id="cart-grand-total" style="color:var(--green)">0€</span></div>
+    <button class="checkout-btn" onclick="sendOrder()">COMMANDER VIA TELEGRAM</button>
 </div>
 
-<!-- ============================================
-     SCRIPTS
-     ============================================ -->
+<audio id="myAudio" loop><source src="SANDIEGO.mp3" type="audio/mpeg"></audio>
+
 <script>
-    // ============================================
-    // CONFIGURATION ET CONSTANTES
-    // ============================================
-    const TELEGRAM_USERNAME = 'BigoShop67'; // ⚠️ À REMPLACER avec ton vrai username Telegram
-    const STORAGE_KEY = 'bigo67_cart';
-    const STORAGE_THEME = 'bigo67_theme';
-
-    // ============================================
-    // ÉTAT APPLICATION
-    // ============================================
+    const TELEGRAM_USERNAME = 'Bigo67'; 
     let cart = [];
-    let currentSection = 'home';
 
-    // ============================================
-    // ÉCRAN DE CHARGEMENT
-    // ============================================
     function initLoadingScreen() {
-        let progress = 0;
-        const fill = document.getElementById('fill');
-        const slides = [document.getElementById('slide1'), document.getElementById('slide2')];
-        let currentSlide = 0;
-
-        // Animation barre de chargement
+        let p = 0; const fill = document.getElementById('fill');
         const interval = setInterval(() => {
-            progress += Math.random() * 20;
-            if (progress > 100) progress = 100;
-            fill.style.width = progress + "%";
-            
-            if (progress === 100) {
+            p += Math.random() * 20; if (p > 100) p = 100;
+            fill.style.width = p + "%";
+            if (p === 100) {
                 clearInterval(interval);
-                setTimeout(() => {
-                    document.getElementById('l-bar').style.display = 'none';
-                    document.getElementById('enter-wrapper').style.display = 'flex';
-                }, 600);
+                setTimeout(() => { document.getElementById('l-bar').style.display = 'none'; document.getElementById('enter-wrapper').style.display = 'flex'; }, 600);
             }
-        }, 500);
-
-        // Animation slides
-        setInterval(() => {
-            slides[currentSlide].style.opacity = '0';
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].style.opacity = '1';
-        }, 4000);
+        }, 400);
     }
 
     function startApp() {
-        const loadingScreen = document.getElementById('loading-screen');
-        loadingScreen.style.transform = 'scale(1.5)';
-        loadingScreen.style.opacity = '0';
-        
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
-            loadCart(); // Charger le panier sauvegardé
-            showSection('home');
-        }, 800);
+        document.getElementById('myAudio').play().catch(() => console.log("Musique bloquée par le navigateur"));
+        document.getElementById('loading-screen').style.opacity = '0';
+        setTimeout(() => { document.getElementById('loading-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; }, 800);
     }
 
-    // ============================================
-    // GESTION DES SECTIONS
-    // ============================================
-    function showSection(sectionId) {
-        // Masquer tous les conteneurs
-        document.querySelectorAll('.container, #home-page').forEach(el => {
-            el.classList.remove('active');
-            el.style.display = 'none';
-        });
-
-        // Afficher le bon conteneur
-        const targetContainer = document.getElementById(sectionId === 'home' ? 'home-page' : sectionId);
-        if (targetContainer) {
-            targetContainer.style.display = sectionId === 'home' ? 'grid' : 'block';
-            targetContainer.classList.add('active');
-        }
-
-        // Mettre à jour l'onglet actif
-        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-        const tabId = 't-' + sectionId;
-        const tab = document.getElementById(tabId);
-        if (tab) tab.classList.add('active');
-
-        currentSection = sectionId;
+    function showSection(id) {
+        document.querySelectorAll('.container, #home-page').forEach(el => el.style.display = 'none');
+        const target = document.getElementById(id === 'home' ? 'home-page' : id);
+        target.style.display = (id === 'home' ? 'grid' : 'block');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        const tab = document.getElementById('t-' + id); if (tab) tab.classList.add('active');
     }
 
-    // ============================================
-    // GESTION DU PANIER
-    // ============================================
     function addToCart(name, price) {
-        if (!name || !price || price <= 0) {
-            showAlert('Produit invalide', 'error');
-            return;
-        }
-
-        cart.push({ id: Date.now(), name, price });
-        saveCart();
+        cart.push({ name, price });
         updateCartDisplay();
-        showAlert(`${name} ajouté au panier ✓`, 'success');
-    }
-
-    function removeFromCart(itemId) {
-        cart = cart.filter(item => item.id !== itemId);
-        saveCart();
-        updateCartDisplay();
-        
-        if (cart.length === 0) {
-            closeCart();
-        }
     }
 
     function updateCartDisplay() {
-        const cartList = document.getElementById('cart-items-list');
-        const cartCount = document.getElementById('cart-count');
-        const cartTotalBar = document.getElementById('cart-total-bar');
-        const cartBar = document.getElementById('cart-bar');
-
-        if (cart.length === 0) {
-            cartBar.style.display = 'none';
-            cartList.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Votre panier est vide</p>';
-            return;
-        }
-
-        cartBar.style.display = 'flex';
-
-        // Mettre à jour la liste du panier
-        let html = '';
-        let subtotal = 0;
-
-        cart.forEach(item => {
-            subtotal += item.price;
-            html += `
-                <div class="order-row">
-                    <div class="order-row-item">
-                        <span>${item.name}</span>
-                        <button class="remove-item-btn" onclick="removeFromCart(${item.id})">✕</button>
-                    </div>
-                    <span>${item.price}€</span>
-                </div>
-            `;
-        });
-
-        cartList.innerHTML = html;
-
-        // Mettre à jour les totaux
-        const shippingCost = parseInt(document.getElementById('shipping').value);
-        const grandTotal = subtotal + shippingCost;
-
-        cartCount.innerText = `${cart.length} ${cart.length === 1 ? 'ARTICLE' : 'ARTICLES'}`;
-        cartTotalBar.innerText = `${grandTotal}€`;
-        document.getElementById('cart-grand-total').innerText = `${grandTotal}€`;
+        const list = document.getElementById('cart-items-list');
+        const bar = document.getElementById('cart-bar');
+        if (cart.length === 0) { bar.style.display = 'none'; return; }
+        bar.style.display = 'flex';
+        let html = ''; let sub = 0;
+        cart.forEach(item => { sub += item.price; html += `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #222"><span>${item.name}</span><span>${item.price}€</span></div>`; });
+        list.innerHTML = html;
+        const ship = parseInt(document.getElementById('shipping').value);
+        document.getElementById('cart-count').innerText = cart.length + " ARTICLES";
+        document.getElementById('cart-total-bar').innerText = (sub + ship) + "€";
+        document.getElementById('cart-grand-total').innerText = (sub + ship) + "€";
     }
 
-    function openCart() {
-        if (cart.length === 0) {
-            showAlert('Votre panier est vide', 'error');
-            return;
-        }
-        document.getElementById('cart-modal').style.display = 'flex';
-        updateCartDisplay();
-    }
+    function openCart() { document.getElementById('cart-modal').style.display = 'flex'; }
+    function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
 
-    function closeCart() {
-        document.getElementById('cart-modal').style.display = 'none';
-    }
-
-    // ============================================
-    // ENVOI DE COMMANDE
-    // ============================================
     function sendOrder() {
-        if (cart.length === 0) {
-            showAlert('Panier vide !', 'error');
-            return;
-        }
-
-        if (!TELEGRAM_USERNAME || TELEGRAM_USERNAME === 'BigoShop67') {
-            showAlert('⚠️ Configuration incomplète. Contacte l\'administrateur.', 'error');
-            return;
-        }
-
-        const shippingCost = parseInt(document.getElementById('shipping').value);
-        const shippingMethod = document.getElementById('shipping').options[document.getElementById('shipping').selectedIndex].text;
-        const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-        const total = subtotal + shippingCost;
-
-        // Construire le message
-        let message = '🛒 *NOUVELLE COMMANDE BIGO 67*\n\n';
-        message += '📦 *Produits:*\n';
-        
-        cart.forEach(item => {
-            message += `• ${item.name} - ${item.price}€\n`;
-        });
-
-        message += `\n💰 *Sous-total:* ${subtotal}€\n`;
-        message += `🚚 *${shippingMethod}*\n`;
-        message += `\n*✅ TOTAL: ${total}€*`;
-
-        const telegramUrl = `https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(message)}`;
-
-        // Vider le panier et fermer la modal avant redirection
-        cart = [];
-        saveCart();
-        document.getElementById('cart-modal').style.display = 'none';
-        document.getElementById('cart-bar').style.display = 'none';
-
-        // Rediriger vers Telegram
-        window.open(telegramUrl, '_blank');
+        const shipCost = parseInt(document.getElementById('shipping').value);
+        const sub = cart.reduce((s, i) => s + i.price, 0);
+        let msg = '🛒 *COMMANDE BIGO 67*\n\n';
+        cart.forEach(i => msg += `• ${i.name} - ${i.price}€\n`);
+        msg += `\nLIVRAISON : ${shipCost === 0 ? 'Obernai' : 'Strasbourg (+10€)'}\n*TOTAL : ${sub + shipCost}€*`;
+        window.open(`https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // ============================================
-    // STOCKAGE LOCAL
-    // ============================================
-    function saveCart() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-        } catch (e) {
-            console.error('Erreur stockage:', e);
-        }
-    }
-
-    function loadCart() {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                cart = JSON.parse(saved);
-                updateCartDisplay();
-            }
-        } catch (e) {
-            console.error('Erreur chargement:', e);
-            cart = [];
-        }
-    }
-
-    // ============================================
-    // UTILITAIRES
-    // ============================================
-    function showAlert(message, type = 'success') {
-        const alertDiv = document.createElement('div');
-        alertDiv.className = `alert alert-${type}`;
-        alertDiv.textContent = message;
-        alertDiv.style.position = 'fixed';
-        alertDiv.style.top = '20px';
-        alertDiv.style.right = '20px';
-        alertDiv.style.maxWidth = '400px';
-        alertDiv.style.zIndex = '1000';
-
-        document.body.appendChild(alertDiv);
-
-        setTimeout(() => {
-            alertDiv.style.opacity = '0';
-            alertDiv.style.transition = 'opacity 0.3s';
-            setTimeout(() => alertDiv.remove(), 300);
-        }, 3000);
-    }
-
-    // ============================================
-    // FERMER LE MODAL PAR CLIC EXTÉRIEUR
-    // ============================================
-    document.getElementById('cart-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'cart-modal') {
-            closeCart();
-        }
-    });
-
-    // ============================================
-    // INITIALISATION
-    // ============================================
-    document.addEventListener('DOMContentLoaded', () => {
-        initLoadingScreen();
-    });
+    document.addEventListener('DOMContentLoaded', initLoadingScreen);
 </script>
-
 </body>
 </html>
