@@ -6,59 +6,70 @@
     <title>BIGO 67 - PREMIUM SHOP</title>
     <style>
         @font-face { font-family: 'Pricedown'; src: url('https://fonts.cdnfonts.com/s/17223/pricedown.woff') format('woff'); }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap');
 
-        :root { --pink: #ff00ff; --blue: #00f2ff; --bg: #050505; --green: #39FF14; --dark-gray: #111; --border-gray: #222; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        :root { --pink: #ff00ff; --blue: #00f2ff; --bg: #050505; --green: #39FF14; --gray: #1a1a1a; --snap: #FFFC00; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: white; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        /* CHARGEMENT GTA */
-        #loading-screen { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; transition: 0.8s ease-in-out; }
-        .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; animation: kenburns 10s infinite alternate; opacity: 0; transition: opacity 1.5s; }
-        @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.2); } }
-        .loading-bar-container { width: 80%; height: 8px; background: rgba(255, 255, 255, 0.1); border: 2px solid #fff; margin-bottom: 60px; z-index: 510; border-radius: 4px; }
-        .loading-bar-fill { height: 100%; width: 0%; background: var(--pink); box-shadow: 0 0 15px var(--pink); transition: width 0.4s; border-radius: 4px; }
-        #enter-wrapper { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; background: rgba(0, 0, 0, 0.7); z-index: 520; backdrop-filter: blur(8px); }
-        .flash-text { font-family: 'Pricedown'; font-size: 4.5rem; color: #fff; text-shadow: 0 0 20px var(--blue); animation: blink 1s infinite; margin-bottom: 30px; }
-        @keyframes blink { 50% { opacity: 0.2; } }
-        .enter-btn { font-family: 'Pricedown'; font-size: 2.2rem; background: none; border: 3px solid #fff; color: #fff; padding: 15px 40px; cursor: pointer; box-shadow: 0 0 20px var(--pink); border-radius: 5px; }
+        /* CHARGEMENT GTA AVEC HOMEPAGE.JPG */
+        #loading-screen { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; transition: 0.8s; }
+        #enter-wrapper { 
+            position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; 
+            background: url('homepage.jpg') no-repeat center center; background-size: cover; z-index: 1010;
+        }
+        #enter-wrapper::before { content:''; position: absolute; inset:0; background: rgba(0,0,0,0.5); }
+        .flash-text { position: relative; font-family: 'Pricedown'; font-size: 4rem; color: #fff; text-shadow: 0 0 20px var(--pink); animation: blink 1.2s infinite; margin-bottom: 20px; }
+        @keyframes blink { 50% { opacity: 0.3; } }
+        .enter-btn { position: relative; font-family: 'Pricedown'; font-size: 2rem; background: rgba(255,255,255,0.1); border: 2px solid #fff; color: #fff; padding: 12px 40px; cursor: pointer; backdrop-filter: blur(5px); border-radius: 5px; }
+
+        .loading-bar-container { width: 70%; height: 6px; background: rgba(255,255,255,0.1); border: 1px solid #fff; margin-bottom: 50px; z-index: 1005; border-radius: 10px; }
+        .loading-bar-fill { height: 100%; width: 0%; background: var(--pink); box-shadow: 0 0 15px var(--pink); transition: 0.4s; }
 
         /* INTERFACE */
-        #app-content { display: none; min-height: 100vh; padding-bottom: 120px; }
-        header { padding: 15px; text-align: center; border-bottom: 1px solid var(--border-gray); background: rgba(0, 0, 0, 0.95); position: sticky; top: 0; z-index: 100; }
-        .logo { font-family: 'Pricedown'; font-size: 2.8rem; color: #fff; text-shadow: 0 0 10px var(--pink); margin: 0; }
-        .tabs { display: flex; justify-content: center; gap: 20px; padding: 12px; background: var(--dark-gray); border-bottom: 1px solid var(--border-gray); }
-        .tab { font-size: 0.75rem; color: #666; text-decoration: none; text-transform: uppercase; font-weight: 900; letter-spacing: 1.5px; padding: 8px 0; border-bottom: 2px solid transparent; }
-        .tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+        #app-content { display: none; padding-bottom: 120px; }
+        header { padding: 20px; text-align: center; border-bottom: 1px solid #222; background: #000; position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Pricedown'; font-size: 2.5rem; color: #fff; letter-spacing: 2px; }
+        
+        .tabs { display: flex; justify-content: center; gap: 15px; background: var(--gray); padding: 10px; position: sticky; top: 75px; z-index: 90; }
+        .tab { font-size: 0.65rem; color: #777; text-decoration: none; text-transform: uppercase; font-weight: 900; letter-spacing: 1px; padding: 5px 10px; }
+        .tab.active { color: var(--blue); border-bottom: 2px solid var(--blue); }
 
-        /* PRODUITS */
-        #home-page { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .category-card { height: 140px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Pricedown'; font-size: 2.2rem; border: 1px solid var(--border-gray); background-size: cover; background-position: center; position: relative; overflow: hidden; }
-        .category-card::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.5); }
-        .category-card span { position: relative; z-index: 1; text-shadow: 2px 2px 10px #000; }
+        /* CARTES ACCUEIL */
+        #home-page { padding: 20px; display: grid; gap: 15px; }
+        .cat-card { height: 130px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Pricedown'; font-size: 2rem; background-size: cover; background-position: center; position: relative; overflow: hidden; border: 1px solid #333; }
+        .cat-card::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+        .cat-card span { position: relative; z-index: 1; }
+
+        /* LISTE PRODUITS */
         .container { display: none; padding: 20px; }
         .container.active { display: block; }
-        .product-card { background: var(--dark-gray); border-radius: 12px; margin-bottom: 15px; padding: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border-gray); }
-        .product-info { display: flex; align-items: center; flex: 1; }
-        .product-img { width: 70px; height: 70px; border-radius: 8px; margin-right: 15px; object-fit: cover; }
-        .product-name { font-weight: 900; font-size: 0.85rem; text-transform: uppercase; }
-        .product-price { color: var(--green); font-weight: 900; font-size: 1.2rem; }
-        .add-btn { background: var(--pink); border: none; color: white; padding: 10px 15px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        .product-card { background: var(--gray); border-radius: 12px; margin-bottom: 12px; padding: 12px; display: flex; align-items: center; border: 1px solid #222; }
+        .product-img { width: 65px; height: 65px; border-radius: 8px; object-fit: cover; margin-right: 15px; }
+        .product-main { flex: 1; }
+        .product-name { font-weight: 700; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 3px; }
+        .stock-badge { font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .instock { background: var(--green); color: #000; }
+        .outstock { background: #444; color: #aaa; }
+        .product-price { color: var(--green); font-weight: 900; font-size: 1.1rem; margin-top: 4px; }
+        .add-btn { background: var(--pink); border: none; color: white; width: 45px; height: 45px; border-radius: 12px; font-size: 1.6rem; font-weight: 900; cursor: pointer; }
 
-        /* PANIER */
-        #cart-bar { position: fixed; bottom: 25px; left: 5%; width: 90%; background: var(--blue); color: black; padding: 18px; border-radius: 50px; display: none; justify-content: space-between; align-items: center; font-weight: 900; z-index: 200; }
-        #cart-modal { position: fixed; inset: 0; background: var(--bg); z-index: 600; display: none; padding: 25px; flex-direction: column; overflow-y: auto; }
-        .close-cart { text-align: right; font-size: 2.5rem; color: var(--pink); }
-        .cart-title { font-family: 'Pricedown'; color: var(--blue); font-size: 2.5rem; }
-        .shipping-select { width: 100%; padding: 18px; background: var(--dark-gray); color: white; border: 2px solid var(--blue); border-radius: 12px; margin: 25px 0; font-weight: bold; }
-        .checkout-btn { width: 100%; padding: 20px; background: var(--green); color: black; border: none; border-radius: 12px; font-weight: 900; font-size: 1.2rem; cursor: pointer; }
+        /* MODAL PRODUIT DETAIL */
+        #product-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 2000; display: none; padding: 20px; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow-y: auto; }
+        #modal-img { width: 180px; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 15px; border: 2px solid var(--pink); }
+        .desc-text { color: #ccc; font-size: 0.85rem; line-height: 1.4; margin: 15px 0; max-width: 300px; }
+        .modal-btns { display: grid; gap: 10px; width: 100%; max-width: 300px; }
+        .cmd-tg { background: var(--blue); color: #000; padding: 12px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        .cmd-snap { background: var(--snap); color: #000; padding: 12px; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; }
+
+        /* PANIER FOOTER */
+        #cart-bar { position: fixed; bottom: 20px; left: 5%; width: 90%; background: var(--blue); color: #000; padding: 15px 20px; border-radius: 50px; display: none; justify-content: space-between; align-items: center; font-weight: 900; z-index: 500; }
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2.5rem; color: var(--pink); cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="loading-screen">
-    <div id="slide1" class="slide-bg" style="background-image: url('se2022black.jpg'); opacity: 1;"></div>
-    <div id="slide2" class="slide-bg" style="background-image: url('12miniblue.png');"></div>
     <div id="enter-wrapper">
         <h1 class="flash-text">BIGO 67</h1>
         <button class="enter-btn" onclick="startApp()">START GAME</button>
@@ -67,112 +78,170 @@
 </div>
 
 <div id="app-content">
-    <header><h1 class="logo" onclick="showSection('home')">BIGO 67</h1></header>
+    <header><h1 class="logo">BIGO 67</h1></header>
     <nav class="tabs">
-        <a href="javascript:void(0)" id="t-home" class="tab active" onclick="showSection('home')">Accueil</a>
-        <a href="javascript:void(0)" id="t-iphone" class="tab" onclick="showSection('iphone')">iPhones</a>
-        <a href="javascript:void(0)" id="t-secret" class="tab" onclick="showSection('secret')">🕵️</a>
+        <a href="#" id="t-home" class="tab active" onclick="showSection('home')">Accueil</a>
+        <a href="#" id="t-iphone" class="tab" onclick="showSection('iphone')">iPhones</a>
+        <a href="#" id="t-secret" class="tab" onclick="showSection('secret')">Secret</a>
     </nav>
 
     <div id="home-page">
-        <div class="category-card" style="background-image: url('12miniblue.png');" onclick="showSection('iphone')"><span>iPHONES</span></div>
-        <div class="category-card" style="background-color: #1a1a1a; border: 2px solid var(--pink);" onclick="showSection('secret')"><span>INSPECTEUR 🕵️</span></div>
+        <div class="cat-card" style="background-image: url('12miniblue.png');" onclick="showSection('iphone')"><span>iPHONES</span></div>
+        <div class="cat-card" style="background-color: #111; border: 2px solid var(--pink);" onclick="showSection('secret')"><span>SECRET 🕵️</span></div>
     </div>
 
     <div id="iphone" class="container">
-        <div class="product-card"><div class="product-info"><img src="12miniblue.png" class="product-img"><div><div class="product-name">12 Mini Bleu</div><div class="product-price">170€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 12 Mini Bleu', 170)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="12minipurple.png" class="product-img"><div><div class="product-name">12 Mini Mauve</div><div class="product-price">170€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 12 Mini Mauve', 170)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="se2022black.jpg" class="product-img"><div><div class="product-name">SE 2022 Noir</div><div class="product-price">220€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2022 Noir', 220)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="se2020black.png" class="product-img"><div><div class="product-name">SE 2020 Noir</div><div class="product-price">160€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2020 Noir', 160)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="se2020red.png" class="product-img"><div><div class="product-name">SE 2020 Rouge</div><div class="product-price">160€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2020 Rouge', 160)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="se2020white.png" class="product-img"><div><div class="product-name">SE 2020 Blanc</div><div class="product-price">160€</div></div></div><button class="add-btn" onclick="addToCart('iPhone SE 2020 Blanc', 160)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="8white.png" class="product-img"><div><div class="product-name">8 Blanc</div><div class="product-price">85€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 8 Blanc', 85)">+</button></div>
-        <div class="product-card"><div class="product-info"><img src="7black.png" class="product-img"><div><div class="product-name">7 Noir</div><div class="product-price">60€</div></div></div><button class="add-btn" onclick="addToCart('iPhone 7 Noir', 60)">+</button></div>
+        <div class="product-card">
+            <img src="12minipurple.png" class="product-img" onclick="openProduct('12 Mini Mauve', 170, '12minipurple.png', true)">
+            <div class="product-main" onclick="openProduct('12 Mini Mauve', 170, '12minipurple.png', true)">
+                <div class="product-name">12 Mini Mauve <span class="stock-badge instock">DISPO</span></div>
+                <div class="product-price">170€</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone 12 Mini Mauve', 170)">+</button>
+        </div>
+
+        <div class="product-card">
+            <img src="12miniblue.png" class="product-img" onclick="openProduct('12 Mini Bleu', 170, '12miniblue.png', false)">
+            <div class="product-main" onclick="openProduct('12 Mini Bleu', 170, '12miniblue.png', false)">
+                <div class="product-name">12 Mini Bleu <span class="stock-badge outstock">ATTENTE</span></div>
+                <div class="product-price">170€</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone 12 Mini Bleu', 170)">+</button>
+        </div>
+
+        <div class="product-card">
+            <img src="se2020black.png" class="product-img" onclick="openProduct('SE 2020 Noir', 160, 'se2020black.png', false)">
+            <div class="product-main" onclick="openProduct('SE 2020 Noir', 160, 'se2020black.png', false)">
+                <div class="product-name">SE 2020 Noir <span class="stock-badge outstock">ATTENTE</span></div>
+                <div class="product-price">160€</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone SE 2020 Noir', 160)">+</button>
+        </div>
+
+        <div class="product-card">
+            <img src="8white.png" class="product-img" onclick="openProduct('8 Blanc', 85, '8white.png', false)">
+            <div class="product-main" onclick="openProduct('8 Blanc', 85, '8white.png', false)">
+                <div class="product-name">8 Blanc <span class="stock-badge outstock">ATTENTE</span></div>
+                <div class="product-price">85€</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone 8 Blanc', 85)">+</button>
+        </div>
+
+        <div class="product-card">
+            <img src="7black.png" class="product-img" onclick="openProduct('7 Noir', 60, '7black.png', false)">
+            <div class="product-main" onclick="openProduct('7 Noir', 60, '7black.png', false)">
+                <div class="product-name">7 Noir <span class="stock-badge outstock">ATTENTE</span></div>
+                <div class="product-price">60€</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('iPhone 7 Noir', 60)">+</button>
+        </div>
     </div>
 
     <div id="secret" class="container">
-        <div class="product-card"><div class="product-info"><div style="font-size: 40px; margin-right: 15px;">📍</div><div><div class="product-name">Traqueur GPS</div><div class="product-price">59€</div></div></div><button class="add-btn" onclick="addToCart('Traqueur GPS', 59)">+</button></div>
+        <div class="product-card">
+            <div style="font-size: 40px; margin-right: 15px;">📍</div>
+            <div class="product-main" onclick="openProduct('Traqueur GPS', 59, '', true)">
+                <div class="product-name">Traqueur GPS <span class="stock-badge instock">DISPO</span></div>
+                <div class="product-price">59€</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('Traqueur GPS', 59)">+</button>
+        </div>
     </div>
 </div>
 
-<div id="cart-bar" onclick="openCart()"><span id="cart-count">0 ARTICLE</span><span id="cart-total-bar">0€</span></div>
+<div id="product-modal">
+    <div class="close-btn" onclick="closeProduct()">×</div>
+    <img id="modal-img" src="">
+    <h2 id="modal-title" style="font-family:'Pricedown'; font-size:2rem; margin-bottom:5px;"></h2>
+    <div id="modal-stock"></div>
+    <p id="modal-desc" class="desc-text"></p>
+    <div id="modal-price" style="font-size: 1.8rem; font-weight: 900; color: var(--green); margin-bottom: 20px;"></div>
+    
+    <div class="modal-btns">
+        <button class="cmd-tg" onclick="directOrder('tg')">COMMANDER SUR TELEGRAM</button>
+        <button class="cmd-snap" onclick="directOrder('snap')">COMMANDER SUR SNAPCHAT</button>
+        <button style="background:none; border:1px solid #555; color:#fff; padding:10px; border-radius:8px; font-weight:bold;" onclick="addFromModal()">AJOUTER AU PANIER</button>
+    </div>
+</div>
 
-<div id="cart-modal">
-    <div class="close-cart" onclick="closeCart()">✕</div>
-    <h2 class="cart-title">PANIER</h2>
-    <div id="cart-items-list"></div>
-    <select id="shipping" class="shipping-select" onchange="updateCartDisplay()">
-        <option value="0">📍 Remise main propre (Obernai) - 0€</option>
-        <option value="10">🚚 Livraison (Strasbourg) - 10€</option>
-    </select>
-    <div style="font-size: 1.8rem; font-weight: 900; margin: 20px 0;">TOTAL: <span id="cart-grand-total" style="color:var(--green)">0€</span></div>
-    <button class="checkout-btn" onclick="sendOrder()">COMMANDER VIA TELEGRAM</button>
+<div id="cart-bar" onclick="alert('Rendez-vous dans la fiche d\'un produit pour commander directement sur TG ou SNAP !')">
+    <span id="cart-count">0 ARTICLE</span>
+    <span id="cart-total-bar">0€</span>
 </div>
 
 <audio id="myAudio" loop><source src="SANDIEGO.mp3" type="audio/mpeg"></audio>
 
 <script>
-    const TELEGRAM_USERNAME = 'Bigo67'; 
+    const TG_USER = 'ler823';
+    const SNAP_USER = 'bigo.67';
     let cart = [];
+    let currentProd = {};
 
-    function initLoadingScreen() {
-        let p = 0; const fill = document.getElementById('fill');
+    function init() {
+        let p = 0;
         const interval = setInterval(() => {
-            p += Math.random() * 20; if (p > 100) p = 100;
-            fill.style.width = p + "%";
-            if (p === 100) {
+            p += Math.random() * 25;
+            document.getElementById('fill').style.width = Math.min(p, 100) + "%";
+            if (p >= 100) {
                 clearInterval(interval);
-                setTimeout(() => { document.getElementById('l-bar').style.display = 'none'; document.getElementById('enter-wrapper').style.display = 'flex'; }, 600);
+                document.getElementById('l-bar').style.display = 'none';
+                document.getElementById('enter-wrapper').style.display = 'flex';
             }
-        }, 400);
+        }, 500);
     }
 
     function startApp() {
-        document.getElementById('myAudio').play().catch(() => console.log("Musique bloquée par le navigateur"));
+        document.getElementById('myAudio').play().catch(()=> {});
         document.getElementById('loading-screen').style.opacity = '0';
-        setTimeout(() => { document.getElementById('loading-screen').style.display = 'none'; document.getElementById('app-content').style.display = 'block'; }, 800);
+        setTimeout(() => { 
+            document.getElementById('loading-screen').style.display = 'none'; 
+            document.getElementById('app-content').style.display = 'block'; 
+        }, 600);
     }
 
     function showSection(id) {
         document.querySelectorAll('.container, #home-page').forEach(el => el.style.display = 'none');
-        const target = document.getElementById(id === 'home' ? 'home-page' : id);
-        target.style.display = (id === 'home' ? 'grid' : 'block');
+        document.getElementById(id === 'home' ? 'home-page' : id).style.display = (id === 'home' ? 'grid' : 'block');
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        const tab = document.getElementById('t-' + id); if (tab) tab.classList.add('active');
+        document.getElementById('t-' + id).classList.add('active');
+    }
+
+    function openProduct(name, price, img, available) {
+        currentProd = {name, price};
+        document.getElementById('modal-title').innerText = name;
+        document.getElementById('modal-price').innerText = price + "€";
+        document.getElementById('modal-img').src = img || 'https://via.placeholder.com/200';
+        document.getElementById('modal-stock').innerHTML = available ? '<span class="stock-badge instock">EN STOCK</span>' : '<span class="stock-badge outstock">SUR COMMANDE</span>';
+        document.getElementById('modal-desc').innerText = `Produit ${name} authentique. Testé, batterie vérifiée. Qualité garantie BIGO 67. Livraison possible Strasbourg/Obernai.`;
+        document.getElementById('product-modal').style.display = 'flex';
+    }
+
+    function closeProduct() { document.getElementById('product-modal').style.display = 'none'; }
+    
+    function addFromModal() {
+        addToCart(currentProd.name, currentProd.price);
+        closeProduct();
     }
 
     function addToCart(name, price) {
-        cart.push({ name, price });
-        updateCartDisplay();
+        cart.push({name, price});
+        document.getElementById('cart-bar').style.display = 'flex';
+        let total = cart.reduce((s, i) => s + i.price, 0);
+        document.getElementById('cart-count').innerText = cart.length + " ARTICLE(S)";
+        document.getElementById('cart-total-bar').innerText = total + "€";
     }
 
-    function updateCartDisplay() {
-        const list = document.getElementById('cart-items-list');
-        const bar = document.getElementById('cart-bar');
-        if (cart.length === 0) { bar.style.display = 'none'; return; }
-        bar.style.display = 'flex';
-        let html = ''; let sub = 0;
-        cart.forEach(item => { sub += item.price; html += `<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #222"><span>${item.name}</span><span>${item.price}€</span></div>`; });
-        list.innerHTML = html;
-        const ship = parseInt(document.getElementById('shipping').value);
-        document.getElementById('cart-count').innerText = cart.length + " ARTICLES";
-        document.getElementById('cart-total-bar').innerText = (sub + ship) + "€";
-        document.getElementById('cart-grand-total').innerText = (sub + ship) + "€";
+    function directOrder(platform) {
+        let msg = `Salut ! Je souhaite commander le ${currentProd.name} (${currentProd.price}€). Est-il toujours dispo ?`;
+        if(platform === 'tg') {
+            window.open(`https://t.me/${TG_USER}?text=${encodeURIComponent(msg)}`, '_blank');
+        } else {
+            window.open(`https://www.snapchat.com/add/${SNAP_USER}`, '_blank');
+        }
     }
 
-    function openCart() { document.getElementById('cart-modal').style.display = 'flex'; }
-    function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
-
-    function sendOrder() {
-        const shipCost = parseInt(document.getElementById('shipping').value);
-        const sub = cart.reduce((s, i) => s + i.price, 0);
-        let msg = '🛒 *COMMANDE BIGO 67*\n\n';
-        cart.forEach(i => msg += `• ${i.name} - ${i.price}€\n`);
-        msg += `\nLIVRAISON : ${shipCost === 0 ? 'Obernai' : 'Strasbourg (+10€)'}\n*TOTAL : ${sub + shipCost}€*`;
-        window.open(`https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    document.addEventListener('DOMContentLoaded', initLoadingScreen);
+    document.addEventListener('DOMContentLoaded', init);
 </script>
+
 </body>
 </html>
