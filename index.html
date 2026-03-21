@@ -825,9 +825,6 @@
 </head>
 <body>
 
-<!-- ============================================
-     ÉCRAN DE CHARGEMENT
-     ============================================ -->
 <div id="loading-screen">
     <div id="enter-wrapper">
         <h1 class="flash-text gta-style">BIGO 67</h1>
@@ -838,9 +835,6 @@
     </div>
 </div>
 
-<!-- ============================================
-     APPLICATION PRINCIPALE
-     ============================================ -->
 <div id="app-content">
     <header>
         <h1 class="logo gta-style">BIGO 67</h1>
@@ -853,15 +847,12 @@
         <a href="javascript:void(0)" id="t-secret" class="tab gta-style" onclick="showSection('secret')">🕵️</a>
     </nav>
 
-    <!-- PAGE ACCUEIL -->
     <div id="home-page">
-        <!-- SECTION BIENVENUE -->
         <div class="welcome-section">
             <h2 class="welcome-title gta-style">Bienvenue chez BIGO 67</h2>
             <p class="welcome-text">Smartphones premium vérifiés et certifiés. Qualité garantie, iCloud débloqué, batterie testée.</p>
         </div>
 
-        <!-- SECTION CONTACTS -->
         <div class="contact-section">
             <h3 class="contact-title">📞 ME CONTACTER</h3>
             
@@ -896,19 +887,13 @@
         </div>
     </div>
 
-    <!-- SECTION iPHONES -->
     <div id="iphone" class="container"></div>
 
-    <!-- SECTION SAMSUNG -->
     <div id="samsung" class="container"></div>
 
-    <!-- SECTION SECRET -->
     <div id="secret" class="container"></div>
 </div>
 
-<!-- ============================================
-     MODAL PRODUIT
-     ============================================ -->
 <div id="product-modal" class="modal-overlay">
     <div class="modal-content">
         <button class="close-btn" onclick="closeProduct()">×</button>
@@ -925,9 +910,6 @@
     </div>
 </div>
 
-<!-- ============================================
-     MODAL PANIER
-     ============================================ -->
 <div id="cart-modal" class="modal-overlay">
     <div class="modal-content">
         <button class="close-btn" onclick="closeCart()">×</button>
@@ -941,31 +923,19 @@
     </div>
 </div>
 
-<!-- ============================================
-     PANIER FLOTTANT
-     ============================================ -->
 <div id="cart-bar" onclick="openCart()">
     <span id="cart-count">0 ARTICLE</span>
     <span id="cart-total-bar">0€</span>
 </div>
 
-<!-- ============================================
-     BOUTON MUTE MUSIQUE
-     ============================================ -->
 <button id="mute-btn" onclick="toggleMute()" title="Mute/Unmute">
     <span id="mute-icon">🔊</span>
 </button>
 
-<!-- ============================================
-     AUDIO
-     ============================================ -->
 <audio id="myAudio" loop preload="none">
     <source src="SANDIEGO.mp3" type="audio/mpeg">
 </audio>
 
-<!-- ============================================
-     SCRIPTS
-     ============================================ -->
 <script>
     // ============================================
     // CONFIGURATION & STOCK AVEC PRIX ET DESCRIPTIONS
@@ -976,14 +946,14 @@
     const MUTE_KEY = 'bigo67_muted';
 
     // ============================================
-    // BASE DE DONNÉES PRODUITS - MODIFIER ICI
+    // BASE DE DONNÉES PRODUITS - MISES À JOUR AVEC IMAGES
     // ============================================
     const PRODUCTS = {
         'iphone-1': {
             name: '12 Mini Violet 64GB',
             price: 170,
-            description: 'iPhone 12 Mini en bon état. Batterie 85%. iCloud débloqué. Facile à utiliser et transportable.',
-            image: 'https://images.unsplash.com/photo-1592286927505-1fed5715c3da?w=300&h=300&fit=crop',
+            description: 'iPhone 12 Mini en excellent état. Batterie certifiée, iCloud débloqué.',
+            image: '12minipurple.png',
             inStock: true,
             maxQuantity: 1,
             category: 'iphone'
@@ -991,8 +961,8 @@
         'iphone-2': {
             name: '12 Mini Bleu',
             price: 170,
-            description: 'iPhone 12 Mini en couleur bleu. Batterie très bonne. iCloud débloqué. Bon rapport qualité-prix.',
-            image: 'https://images.unsplash.com/photo-1592286927505-1fed5715c3da?w=300&h=300&fit=crop',
+            description: 'iPhone 12 Mini bleu. Batterie testée. iCloud débloqué.',
+            image: '12miniblue.png',
             inStock: false,
             maxQuantity: 0,
             category: 'iphone'
@@ -1000,8 +970,8 @@
         'iphone-3': {
             name: 'SE 2020 Noir',
             price: 160,
-            description: 'iPhone SE 2020. Compact et performant. Batterie en bon état. iCloud débloqué.',
-            image: 'https://images.unsplash.com/photo-1597825481840-e6b99702eca0?w=300&h=300&fit=crop',
+            description: 'iPhone SE 2020. Compact et performant. Batterie en bon état.',
+            image: 'se2020black.png',
             inStock: false,
             maxQuantity: 0,
             category: 'iphone'
@@ -1009,8 +979,8 @@
         'iphone-4': {
             name: '8 Blanc',
             price: 85,
-            description: 'iPhone 8 blanc. Ancien modèle mais fiable. Batterie à vérifier. iCloud débloqué.',
-            image: 'https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=300&h=300&fit=crop',
+            description: 'iPhone 8 blanc. Fiable et élégant.',
+            image: '8white.png',
             inStock: false,
             maxQuantity: 0,
             category: 'iphone'
@@ -1018,8 +988,8 @@
         'iphone-5': {
             name: '7 Noir',
             price: 60,
-            description: 'iPhone 7 noir. Classique et fiable. Batterie ancienne. iCloud débloqué.',
-            image: 'https://images.unsplash.com/photo-1511707267537-b85faf00021e?w=300&h=300&fit=crop',
+            description: 'iPhone 7 noir. L\'essentiel à petit prix.',
+            image: '7black.png',
             inStock: false,
             maxQuantity: 0,
             category: 'iphone'
@@ -1027,25 +997,7 @@
         'samsung-1': {
             name: 'Galaxy A12 Noir',
             price: 150,
-            description: 'Samsung Galaxy A12. Écran 6.5 pouces. Batterie 4000mAh. Bon téléphone d\'entrée de gamme.',
-            image: 'https://images.unsplash.com/photo-1511297437691-4611063f2122?w=300&h=300&fit=crop',
-            inStock: false,
-            maxQuantity: 0,
-            category: 'samsung'
-        },
-        'samsung-2': {
-            name: 'Galaxy S20 Bleu',
-            price: 350,
-            description: 'Samsung Galaxy S20. Haut de gamme avec caméra 64MP. Écran 120Hz. Très performant.',
-            image: 'https://images.unsplash.com/photo-1511297437691-4611063f2122?w=300&h=300&fit=crop',
-            inStock: false,
-            maxQuantity: 0,
-            category: 'samsung'
-        },
-        'samsung-3': {
-            name: 'Galaxy A52 Noir',
-            price: 200,
-            description: 'Samsung Galaxy A52. Très bon rapport qualité-prix. Écran AMOLED. Batterie 4500mAh.',
+            description: 'Samsung Galaxy A12. Écran 6.5 pouces. Batterie 4000mAh.',
             image: 'https://images.unsplash.com/photo-1511297437691-4611063f2122?w=300&h=300&fit=crop',
             inStock: false,
             maxQuantity: 0,
@@ -1054,10 +1006,10 @@
         'secret-1': {
             name: 'Traqueur GPS',
             price: 59,
-            description: 'Traqueur GPS discret. Batterie longue durée. Suivi en temps réel. Confidentiel.',
+            description: 'Traqueur GPS discret. Batterie longue durée. Suivi en temps réel.',
             image: '',
-            inStock: false,
-            maxQuantity: 0,
+            inStock: true,
+            maxQuantity: 1,
             category: 'secret'
         }
     };
